@@ -41,7 +41,7 @@
                 <TextBox x:Name="searchTextBox" Style="{StaticResource OvalTextBoxStyle}" Grid.Column="2" Width="150" Margin="5,0"/>
             </StackPanel>
 		</Grid>
-        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource BorderStyle}"/>
+        <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource BorderStyle}"/>
         <Grid Grid.Row="1">
             
         </Grid>
