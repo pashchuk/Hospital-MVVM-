@@ -5,45 +5,76 @@
         Title="MainWindow" MinWidth="600" MinHeight="350" 
         Width="800" Height="500">
 	<Grid>
-		<Grid.Background>
-			<LinearGradientBrush EndPoint="0.5,1.5" StartPoint="0.5,0.05">
-				<GradientStop Color="{StaticResource MainBackgroundColor}" Offset="0"/>
-				<GradientStop Color="White" Offset="1"/>
-			</LinearGradientBrush>
-		</Grid.Background>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="0,2">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="1*"/>
-				<ColumnDefinition Width="2*"/>
-				<ColumnDefinition Width="Auto"/>
-			</Grid.ColumnDefinitions>
-			<StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-				<TextBlock Style="{StaticResource MainFonts}" Text="User Name:"/>
-				<TextBlock x:Name="userName" Style="{StaticResource MainFonts}"/>
-			</StackPanel>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" >
-                <TextBlock Style="{StaticResource MenuTextBlockStyle}" Margin="5,0">
-                    <Hyperlink Style="{StaticResource MenuHyperlinkStyle}">Add Card</Hyperlink>
-                </TextBlock>
-                <TextBlock Style="{StaticResource MenuTextBlockStyle}" Margin="5,0">
-                    <Hyperlink Style="{StaticResource MenuHyperlinkStyle}">Add Note</Hyperlink>
-                </TextBlock>
-                <TextBlock Style="{StaticResource MenuTextBlockStyle}" Margin="5,0">
-                    <Hyperlink Style="{StaticResource MenuHyperlinkStyle}">Add Session</Hyperlink>
-                </TextBlock>
-            </StackPanel>
-            <StackPanel Grid.Column="2" Orientation="Horizontal">
-                <TextBlock Grid.Column="1" Style="{StaticResource MainFonts}" Text="Search" Margin="10,0"/>
-                <TextBox x:Name="searchTextBox" Style="{StaticResource OvalTextBoxStyle}" Grid.Column="2" Width="150" Margin="5,0"/>
-            </StackPanel>
-		</Grid>
-        <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource BorderStyle}"/>
-        <Grid Grid.Row="1">
-            
+        <Grid x:Name="LoginPanel" d:IsHidden="false" Visibility="Visible">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,3" StartPoint="0.5,0">
+                    <GradientStop Color="{StaticResource MainBackgroundColor}" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Style="{StaticResource MainFonts}" FontSize="36" Text="Please login" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource MainFonts}" FontSize="20" Text="Username" HorizontalAlignment="Right" Margin="10"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource MainFonts}" FontSize="20" Text="Password" HorizontalAlignment="Right" Margin="10"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource OvalTextBoxStyle}" MinWidth="150" Width="200" HorizontalAlignment="Left" Margin="10"/>
+                <PasswordBox Grid.Row="1" Grid.Column="1" Style="{StaticResource OvalPasswordBoxStyle}" MinWidth="150" Width="200" HorizontalAlignment="Left" Margin="10"/>
+                <Button Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource OpacityButtonStyle}" Content="Login" FontSize="18" Width="200" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20"/>
+            </Grid>
         </Grid>
-	</Grid>
+        <Grid x:Name="mainPanel" d:IsHidden="true" Visibility="Collapsed">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1.5" StartPoint="0.5,0.05">
+                    <GradientStop Color="{StaticResource MainBackgroundColor}" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Style="{StaticResource MainFonts}" Text="User Name:"/>
+                    <TextBlock x:Name="userName" Style="{StaticResource MainFonts}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" >
+                    <TextBlock Style="{StaticResource MenuTextBlockStyle}" Margin="5,0">
+                    <Hyperlink Style="{StaticResource MenuHyperlinkStyle}">Add Card</Hyperlink>
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource MenuTextBlockStyle}" Margin="5,0">
+                    <Hyperlink Style="{StaticResource MenuHyperlinkStyle}">Add Note</Hyperlink>
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource MenuTextBlockStyle}" Margin="5,0">
+                    <Hyperlink Style="{StaticResource MenuHyperlinkStyle}">Add Session</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <TextBlock Grid.Column="1" Style="{StaticResource MainFonts}" Text="Search" Margin="10,0"/>
+                    <TextBox x:Name="searchTextBox" Style="{StaticResource OvalTextBoxStyle}" Grid.Column="2" Width="150" Margin="5,0"/>
+                </StackPanel>
+            </Grid>
+            <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource BorderStyle}"/>
+            <Grid Grid.Row="1">
+
+            </Grid>
+        </Grid>
+    </Grid>
 </Window>
