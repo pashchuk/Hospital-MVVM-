@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace HospitalLibrary
 {
@@ -20,7 +16,7 @@ namespace HospitalLibrary
 
 		#region Navigation Properties
 
-		public virtual IEnumerable<Note> Notes { get; set; } 
+		public virtual List<Note> Notes { get; set; } 
 
 		#endregion
 	}
