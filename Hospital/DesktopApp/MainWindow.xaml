@@ -3,38 +3,43 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="DesktopApp.MainWindow"
         Title="MainWindow" MinWidth="600" MinHeight="350" 
-        Width="800" Height="500">
-	<Grid>
-        <Grid x:Name="LoginPanel" d:IsHidden="false" Visibility="Visible">
+        Width="600" Height="400">
+    <Grid>
+        <Grid x:Name="LoginPanel" d:IsHidden="true" Visibility="Visible">
             <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,3" StartPoint="0.5,0">
-                    <GradientStop Color="{StaticResource MainBackgroundColor}" Offset="0"/>
-                    <GradientStop Color="White" Offset="1"/>
-                </LinearGradientBrush>
+                <VisualBrush Viewbox="0.06,0.06,0.85,0.85">
+                    <VisualBrush.Visual>
+                        <Image Source="Resources/Images/1.jpg" Stretch="Fill">
+                            <Image.Effect>
+                                <BlurEffect Radius="40" KernelType="Gaussian" RenderingBias="Quality"/>
+                            </Image.Effect>
+                        </Image>
+                    </VisualBrush.Visual>
+                </VisualBrush>
             </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Style="{StaticResource MainFonts}" FontSize="36" Text="Please login" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="0" Style="{StaticResource LoginPanelFonts}" FontSize="36" Text="Please login" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF9EB293"/>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="371*"/>
+                    <ColumnDefinition Width="421*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource MainFonts}" FontSize="20" Text="Username" HorizontalAlignment="Right" Margin="10"/>
-                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource MainFonts}" FontSize="20" Text="Password" HorizontalAlignment="Right" Margin="10"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource OvalTextBoxStyle}" MinWidth="150" Width="200" HorizontalAlignment="Left" Margin="10"/>
-                <PasswordBox Grid.Row="1" Grid.Column="1" Style="{StaticResource OvalPasswordBoxStyle}" MinWidth="150" Width="200" HorizontalAlignment="Left" Margin="10"/>
-                <Button Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource OpacityButtonStyle}" Content="Login" FontSize="18" Width="200" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20"/>
+                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LoginPanelFonts}" Text="Username" HorizontalAlignment="Right" Margin="0,10,10,10" Width="94"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource LoginPanelFonts}" Text="Password" HorizontalAlignment="Right" Margin="0,10,10,10" Width="87"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource OvalTextBoxStyle}" VerticalContentAlignment="Center" Width="160" HorizontalAlignment="Left" Margin="10,10,0,10"/>
+                <PasswordBox Grid.Row="1" Grid.Column="1" Style="{StaticResource OvalPasswordBoxStyle}" Width="160" HorizontalAlignment="Left" Margin="10,10,0,10"/>
+                <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource LoginButtonStyle}" Content="Login" FontSize="18" MinWidth="150" Width="200" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20"/>
             </Grid>
         </Grid>
-        <Grid x:Name="mainPanel" d:IsHidden="true" Visibility="Collapsed">
+        <Grid x:Name="mainPanel" d:IsHidden="false">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1.5" StartPoint="0.5,0.05">
                     <GradientStop Color="{StaticResource MainBackgroundColor}" Offset="0"/>
