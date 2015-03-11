@@ -17,5 +17,11 @@ namespace HospitalLibrary
 		public string Password { get; set; }
 
 		#endregion
+
+		#region Navigation Properties
+
+		public virtual IEnumerable<Note> Notes { get; set; } 
+
+		#endregion
 	}
 }
