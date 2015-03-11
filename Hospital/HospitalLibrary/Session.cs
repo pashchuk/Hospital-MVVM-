@@ -4,7 +4,7 @@
 	{
 		#region Properties
 
-		public int Id { get; set; }
+		public int Id { get; private set; }
 		public bool Result { get; set; }
 
 		#endregion

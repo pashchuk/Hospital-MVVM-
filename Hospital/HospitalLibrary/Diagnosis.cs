@@ -6,15 +6,20 @@ namespace HospitalLibrary
 	{
 		#region Properties
 
-		public int Id { get; set; }
+		public int Id { get; private set; }
 		public string Name { get; set; }
 
 		#endregion
 
 		#region Navigation Properties
 
-		public virtual IEnumerable<Session> Sessions { get; set; } 
+		public virtual List<Session> Sessions { get; set; } 
 
 		#endregion
+
+		public Diagnosis()
+		{
+			Sessions = new List<Session>();
+		}
 	}
 }

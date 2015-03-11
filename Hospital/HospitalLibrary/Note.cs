@@ -6,7 +6,7 @@ namespace HospitalLibrary
 	{
 		#region Properties
 
-		public int Id { get; set; }
+		public int Id { get;private set; }
 		public bool IsHidden { get; set; }
 		public DateTime Date { get; set; }
 		public string NoteText { get; set; }

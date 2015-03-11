@@ -6,7 +6,7 @@ namespace HospitalLibrary
 	{
 		#region Properties
 
-		public int Id { get; set; }
+		public int Id { get;private set; }
 		public string Name { get; set; }
 		public int AccesLevel { get; set; }
 		public string Phone { get; set; }
@@ -19,5 +19,10 @@ namespace HospitalLibrary
 		public virtual List<Note> Notes { get; set; } 
 
 		#endregion
+
+		public User()
+		{
+			Notes = new List<Note>();
+		}
 	}
 }

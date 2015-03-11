@@ -6,7 +6,7 @@ namespace HospitalLibrary
 	{
 		#region Properties
 
-		public int Id { get; set; }
+		public int Id { get;private set; }
 		public string Name { get; set; }
 		public int Age { get; set; }
 		public SexType Sex { get; set; }
@@ -17,9 +17,15 @@ namespace HospitalLibrary
 
 		#region Navigation Properties
 
-		public virtual IEnumerable<Note> Notes { get; set; }
-		public virtual IEnumerable<Session> Sessions { get; set; } 
+		public virtual List<Note> Notes { get; set; }
+		public virtual List<Session> Sessions { get; set; } 
 
 		#endregion
+
+		public Card()
+		{
+			Notes = new List<Note>();
+			Sessions = new List<Session>();
+		}
 	}
 }
