@@ -6,7 +6,19 @@ using System.Threading.Tasks;
 
 namespace HospitalLibrary
 {
-	class Diagnosis
+	public class Diagnosis
 	{
+		#region Properties
+
+		public int Id { get; set; }
+		public string Name { get; set; }
+
+		#endregion
+
+		#region Navigation Properties
+
+		public virtual IEnumerable<Session> Sessions { get; set; } 
+
+		#endregion
 	}
 }
