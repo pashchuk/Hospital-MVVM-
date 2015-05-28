@@ -15,11 +15,11 @@
         <TextBlock Grid.Row="0" Text="Login" FontSize="48" FontWeight="Bold" FontFamily="Cambria" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,15"/>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockStyle}" Text="Username"/>
-            <TextBox Style="{StaticResource LoginBoxStyle}" Width="200" Height="30"/>
+            <TextBox Style="{StaticResource LoginBoxStyle}" Width="200" Height="30" VerticalContentAlignment="Center"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Style="{StaticResource TextBlockStyle}" Text="Password" Margin="15,0"/>
-            <PasswordBox Style="{StaticResource PasswordBoxStyle}" Width="200" Height="30"/>
+            <PasswordBox Style="{StaticResource PasswordBoxStyle}" Width="200" Height="30" VerticalContentAlignment="Center"/>
         </StackPanel>
         <Button Grid.Row="3" Style="{StaticResource SignInButtonStyle}" Content="Sign In" Width="330" VerticalAlignment="Top" Margin="0,15"/>
     </Grid>
