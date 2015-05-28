@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using DesktopApp.ViewModel;
 
 namespace DesktopApp.View
 {
@@ -21,6 +22,8 @@ namespace DesktopApp.View
 	{
 		public WorkWindow()
 		{
+			var model = new WorkWindowViewModel() {UserName = "Pashchuk Eduard Fedorovich"};
+			this.DataContext = model;
 			InitializeComponent();
 		}
 	}
