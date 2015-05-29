@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.RightsManagement;
 using System.Text;
@@ -10,19 +11,23 @@ namespace DesktopApp.Model
 	public class Card
 	{
 		#region Properties
-
-		public int CardId { get; set; }
+		public int Id { get; private set; }
 		public string Name { get; set; }
-		public DateTime CreationDate { get; set; }
+		public DateTime CreationDate { get; private set; }
 		 
 
 		#endregion
 
 		#region Navigation Properties
-
-		public User Patient { get; set; }
-		public List<User> CanView { get; set; }
+		[Required]
+		public virtual User Patient { get; set; }
+		public virtual Doctor OwnerDoctor { get; set; }
 
 		#endregion
+
+		public Card()
+		{
+			CreationDate = DateTime.Now;
+		}
 	}
 }
