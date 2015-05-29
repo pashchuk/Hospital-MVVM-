@@ -1,11 +1,12 @@
 ﻿<Window x:Class="DesktopApp.View.WorkWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:windows="clr-namespace:DesktopApp.View"
         Title="WorkWindow" Height="400" Width="600">
     <Window.Resources>
         <ResourceDictionary Source="../Styles/WorkWindowStyles.xaml"/>
     </Window.Resources>
-    <Grid Background="#f5fcfe">
+    <Grid Background="{StaticResource BackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
@@ -36,6 +37,20 @@
             <Border Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="0" Style="{StaticResource MainBorderStyle}"/>
             <Border Grid.Row="1"  Grid.Column="1" Style="{StaticResource MainBorderStyle}"/>
             <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource MainBorderStyle}"/>
+            <ItemsControl Grid.RowSpan="2" Grid.Column="0" ItemsSource="{Binding CardsViews}">
+                <ItemsControl.Template>
+                    <ControlTemplate>
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden" Padding="5,3">
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <windows:CardView/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
     </Grid>
 </Window>
