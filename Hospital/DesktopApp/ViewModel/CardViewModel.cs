@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using DesktopApp.Commands;
 using DesktopApp.Model;
 
 namespace DesktopApp.ViewModel
@@ -11,6 +13,7 @@ namespace DesktopApp.ViewModel
 	{
 		private Card _card;
 
+		public RelayCommand OpenCardCommand { get; private set; }
 		public string Name
 		{
 			get { return _card.Patient.FirstName; }
@@ -42,5 +45,6 @@ namespace DesktopApp.ViewModel
 		{
 			_card = card;
 		}
+
 	}
 }

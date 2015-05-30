@@ -67,7 +67,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="ViewModel\CardViewModel.cs" />
+    <Compile Include="ViewModel\FullCardViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\WorkWindowViewModel.cs" />
     <Compile Include="View\CardView.xaml.cs">
