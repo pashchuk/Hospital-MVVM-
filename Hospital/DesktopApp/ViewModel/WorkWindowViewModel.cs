@@ -112,7 +112,11 @@ namespace DesktopApp.ViewModel
 		}
 
 		public RelayCommand OpenFullCardCommand { get; private set; }
+		public RelayCommand SaveChangesCommand { get; private set; }
+		public RelayCommand DeleteCardCommand { get; private set; }
+		public RelayCommand AddNewCardCommand { get; private set; }
 
+		
 		#endregion
 
 		#region Command Methods
@@ -120,8 +124,35 @@ namespace DesktopApp.ViewModel
 		void InitCommands()
 		{
 			OpenFullCardCommand = new RelayCommand(OpenFullCardExecute, OpenFullCardCanExecute);
+			SaveChangesCommand = new RelayCommand(SaveChangesExecute, SaveChangesCanExecute);
+			DeleteCardCommand = new RelayCommand(DeleteCardExecute, DeleteCardCanExecute);
+			AddNewCardCommand = new RelayCommand(AddNewCardExecute, AddNewCardCanExecute);
 		}
 
+		private bool SaveChangesCanExecute()
+		{
+			throw new NotImplementedException();
+		}
+		private void SaveChangesExecute()
+		{
+			throw new NotImplementedException();
+		}
+		private bool DeleteCardCanExecute()
+		{
+			throw new NotImplementedException();
+		}
+		private void DeleteCardExecute()
+		{
+			throw new NotImplementedException();
+		}
+		private bool AddNewCardCanExecute()
+		{
+			throw new NotImplementedException();
+		}
+		private void AddNewCardExecute()
+		{
+			throw new NotImplementedException();
+		}
 		private bool OpenFullCardCanExecute()
 		{
 			return _selectedCard != null;
