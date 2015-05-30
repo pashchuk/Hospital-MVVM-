@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DesktopApp.Commands;
 using DesktopApp.Model;
 
 namespace DesktopApp.ViewModel
 {
-	class FullCardViewModel : ViewModelBase
+	public class FullCardViewModel : ViewModelBase
 	{
 		private Card _card;
+		private bool _state = false;
 
 		public string DoctorName
 		{
-			get { return _card.OwnerDoctor.FirstName + _card.OwnerDoctor.LastName; }
+			get { return string.Format("{0} {1}",_card.OwnerDoctor.FirstName,_card.OwnerDoctor.LastName); }
 		}
 		public string FirstName
 		{
@@ -87,12 +89,40 @@ namespace DesktopApp.ViewModel
 				OnPropertyChanged("Phone");
 			}
 		}
+		public bool State
+		{
+			get { return _state; }
+			set
+			{
+				_state = value;
+				OnPropertyChanged("State");
+			}
+		}
+		public RelayCommand ModifyCardCommand { get; private set; }
 
+		#region Commends
+
+		void InitCommands()
+		{
+			ModifyCardCommand = new RelayCommand(ModifyCardExecute, ModifyCardCanExecute);
+		}
+
+		bool ModifyCardCanExecute()
+		{
+			return !State;
+		}
+		void ModifyCardExecute()
+		{
+			State = true;
+		}
+
+		#endregion
 
 
 
 		public FullCardViewModel(Card card)
 		{
+			InitCommands();
 			_card = card;
 		}
 	}
