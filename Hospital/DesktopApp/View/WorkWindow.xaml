@@ -53,18 +53,20 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <Grid Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
                 <Border Style="{StaticResource MainBorderStyle}"/>
                 <Grid DataContext="{Binding FullCardViewModel}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifyCardCommand}" Width="25" Height="25" Padding="4">
                             <Button.Content>
                                 <Image Source="../resources/images/modify.png"/>
@@ -76,7 +78,7 @@
                             </Button.Content>
                         </Button>
                     </StackPanel>
-                    <WrapPanel Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="5,0">
+                    <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="5,0">
                         <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Doctor: " HorizontalAlignment="Center"/>
                         <TextBlock Style="{StaticResource InfoTextBlock}" Text="{Binding DoctorName}" HorizontalAlignment="Center" Margin="4,0" FontWeight="Normal"/>
                     </WrapPanel>
@@ -96,6 +98,22 @@
                         <WrapPanel Margin="5,3">
                             <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Age:" HorizontalAlignment="Center"/>
                             <TextBox Style="{StaticResource InfoTextBox}" IsEnabled="{Binding State}" Text="{Binding Age}" HorizontalAlignment="Center" Margin="4,0"/>
+                        </WrapPanel>
+                        <WrapPanel Margin="5,3">
+                            <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Sex:" HorizontalAlignment="Center"/>
+                            <TextBox Style="{StaticResource InfoTextBox}" IsEnabled="{Binding State}" Text="{Binding Sex}" HorizontalAlignment="Center" Margin="4,0"/>
+                        </WrapPanel>
+                        <WrapPanel Margin="5,3">
+                            <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Address:" HorizontalAlignment="Center"/>
+                            <TextBox Style="{StaticResource InfoTextBox}" IsEnabled="{Binding State}" Text="{Binding Address}" HorizontalAlignment="Center" Margin="4,0"/>
+                        </WrapPanel>
+                        <WrapPanel Margin="5,3">
+                            <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Email:" HorizontalAlignment="Center"/>
+                            <TextBox Style="{StaticResource InfoTextBox}" IsEnabled="{Binding State}" Text="{Binding Email}" HorizontalAlignment="Center" Margin="4,0"/>
+                        </WrapPanel>
+                        <WrapPanel Margin="5,3">
+                            <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Phone:" HorizontalAlignment="Center"/>
+                            <TextBox Style="{StaticResource InfoTextBox}" IsEnabled="{Binding State}" Text="{Binding Phone}" HorizontalAlignment="Center" Margin="4,0"/>
                         </WrapPanel>
                     </WrapPanel>
                 </Grid>
