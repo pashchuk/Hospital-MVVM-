@@ -22,7 +22,8 @@ namespace DesktopApp.View
 	{
 		public WorkWindow()
 		{
-			var model = new WorkWindowViewModel() {UserName = "Pashchuk Eduard Fedorovich"};
+			var model = WorkWindowViewModel.GetViewModel();
+			model.UserName = "Pashchuk Eduard Fedorovich";
 			this.DataContext = model;
 			InitializeComponent();
 		}

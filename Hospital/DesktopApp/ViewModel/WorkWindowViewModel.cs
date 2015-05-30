@@ -1,88 +1,102 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using DesktopApp.Commands;
 using DesktopApp.Model;
 using DesktopApp.View;
 using db = DesktopApp.Model.HospitalContext;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace DesktopApp.ViewModel
 {
 	public class WorkWindowViewModel : ViewModelBase
 	{
-		public WorkWindowViewModel()
+		private static volatile WorkWindowViewModel _viewmodel;
+		private static object _lock = new object();
+
+		public static WorkWindowViewModel GetViewModel()
+		{
+			if(_viewmodel!=null) return _viewmodel;
+			lock(_lock)
+				if(_viewmodel==null)
+					_viewmodel = new WorkWindowViewModel();
+			return _viewmodel;
+		}
+
+		private WorkWindowViewModel()
 		{
 			InitCommands();
-			using (var dbs = db.GetContext())
-			{
-//				db.Cards.Load();
-//				
-//
-//				var patient1 = new Patient()
-//				{
-//					Address = "Kyiv, Ukraine",
-//					Age = 20,
-//					Email = "as@asd.asd",
-//					FirstName = "Левицький",
-//					LastName = "Віталій",
-//					MiddleName = "Андрійович",
-//					Sex = "Male",
-//					Phone = "0961234567",
-//					Password = "1111"
-//				};
-//				var patient2 = new Patient()
-//				{
-//					Address = "Kyiv, Ukraine",
-//					Age = 20,
-//					Email = "as@asd.asd",
-//					FirstName = "Лddfdий",
-//					LastName = "dfdf",
-//					MiddleName = "Аdfdfч",
-//					Sex = "Male",
-//					Phone = "0961234567",
-//					Password = "1111"
-//				};
-//				var doc = new Doctor()
-//				{
-//					Address = "Kyiv, Ukraine",
-//					Age = 20,
-//					Email = "as@asd.asd",
-//					FirstName = "Попов",
-//					LastName = "Іван",
-//					MiddleName = "Іванович",
-//					Sex = "Male",
-//					Phone = "0961234567",
-//					Password = "1111",
-//					Office = "travmatolog"
-//				};
-//				var card = new Card() {Patient = patient1, Name = "Temp"};
-//				var card2 = new Card() { Patient = patient2, Name = "Temp2"};
-//				doc.Cards.Add(card);
-//				doc.Cards.Add(card2);
-//				db.Cards.Add(card);
-//				db.Cards.Add(card2);
-//				db.Doctors.Add(doc);
-//				db.SaveChanges();
-//
-				dbs.LoadAll();
-				dbs.SaveChanges();
+			var dbs = db.GetContext();
 
-				CardsViews = new ObservableCollection<CardView>();
-				foreach (var card in dbs.Cards)
-				{
-					var view = new CardView() {DataContext = new CardViewModel(card)};
-					ConfigureAnimation(view);
-					CardsViews.Add(view);
-				}
-				_selectedCard = dbs.Cards.Local[0];
+//			dbs.Cards.Load();
+//
+//
+//			var patient1 = new Patient()
+//			{
+//				Address = "Kyiv, Ukraine",
+//				Age = 20,
+//				Email = "as@asd.asd",
+//				FirstName = "Левицький",
+//				LastName = "Віталій",
+//				MiddleName = "Андрійович",
+//				Sex = "Male",
+//				Phone = "0961234567",
+//				Password = "1111"
+//			};
+//			var patient2 = new Patient()
+//			{
+//				Address = "Kyiv, Ukraine",
+//				Age = 20,
+//				Email = "as@asd.asd",
+//				FirstName = "Лddfdий",
+//				LastName = "dfdf",
+//				MiddleName = "Аdfdfч",
+//				Sex = "Male",
+//				Phone = "0961234567",
+//				Password = "1111"
+//			};
+//			var doc = new Doctor()
+//			{
+//				Address = "Kyiv, Ukraine",
+//				Age = 20,
+//				Email = "as@asd.asd",
+//				FirstName = "Попов",
+//				LastName = "Іван",
+//				MiddleName = "Іванович",
+//				Sex = "Male",
+//				Phone = "0961234567",
+//				Password = "1111",
+//				Office = "travmatolog"
+//			};
+//			var card = new Card() {Patient = patient1, Name = "Temp"};
+//			var card2 = new Card() {Patient = patient2, Name = "Temp2"};
+//			doc.Cards.Add(card);
+//			doc.Cards.Add(card2);
+//			dbs.Cards.Add(card);
+//			dbs.Cards.Add(card2);
+//			dbs.Doctors.Add(doc);
+//			dbs.SaveChanges();
+//
+			dbs.LoadAll();
+			dbs.SaveChanges();
+
+			CardsViews = new ObservableCollection<CardView>();
+			foreach (var card in dbs.Cards)
+			{
+				var view = new CardView() {DataContext = new CardViewModel(card)};
+				ConfigureAnimation(view);
+				CardsViews.Add(view);
 			}
+			_selectedCard = dbs.Cards.Local[0];
 		}
 
 		#region Private Fields
@@ -144,19 +158,34 @@ namespace DesktopApp.ViewModel
 		}
 		private bool DeleteCardCanExecute()
 		{
-			throw new NotImplementedException();
+			return _selectedCard != null && _selectedCardView != null;
 		}
 		private void DeleteCardExecute()
 		{
-			throw new NotImplementedException();
+			if (MessageBox.Show("Are you realy want to delete this card?", "Warning",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+				return;
+			CardsViews.Remove(_selectedCardView);
+			db.GetContext().Cards.Remove(_selectedCard);
+			if (CardsViews.Count != 0)
+			{
+				_selectedCardView = CardsViews[0];
+				_selectedCard = (_selectedCardView.DataContext as CardViewModel).GetCard();
+				OpenFullCardCommand.Execute(null);
+			}
+			db.GetContext().SaveChangesAsync();
 		}
 		private bool AddNewCardCanExecute()
 		{
-			throw new NotImplementedException();
+			return true;
 		}
 		private void AddNewCardExecute()
 		{
-			throw new NotImplementedException();
+			var card = new Card();
+			var efCard = db.GetContext().Cards.Add(card);
+			var cardView = new CardView() {DataContext = new CardViewModel(card)};
+			ConfigureAnimation(cardView);
+			db.GetContext().SaveChangesAsync();
 		}
 		private bool OpenFullCardCanExecute()
 		{

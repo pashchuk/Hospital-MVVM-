@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using DesktopApp.Commands;
 using DesktopApp.Model;
 
@@ -10,8 +11,10 @@ namespace DesktopApp.ViewModel
 {
 	public class FullCardViewModel : ViewModelBase
 	{
+		private WorkWindowViewModel _parentModel;
 		private Card _card;
 		private bool _state = false;
+		private Visibility _dataVisibility;
 
 		public string DoctorName
 		{
@@ -89,6 +92,7 @@ namespace DesktopApp.ViewModel
 				OnPropertyChanged("Phone");
 			}
 		}
+
 		public bool State
 		{
 			get { return _state; }
@@ -98,13 +102,24 @@ namespace DesktopApp.ViewModel
 				OnPropertyChanged("State");
 			}
 		}
+		public Visibility DataVisibility
+		{
+			get { return _dataVisibility;}
+			set
+			{
+				_dataVisibility = value;
+				OnPropertyChanged("DataVisibility");
+			}
+		}
 		public RelayCommand ModifyCardCommand { get; private set; }
+		public RelayCommand DeleteCardCommand { get; private set; }
 
-		#region Commends
+		#region Commands
 
 		void InitCommands()
 		{
 			ModifyCardCommand = new RelayCommand(ModifyCardExecute, ModifyCardCanExecute);
+			DeleteCardCommand = new RelayCommand(DeleteCardExecute, DeleteCardCanExecute);
 		}
 
 		bool ModifyCardCanExecute()
@@ -115,6 +130,14 @@ namespace DesktopApp.ViewModel
 		{
 			State = true;
 		}
+		bool DeleteCardCanExecute()
+		{
+			return _parentModel.DeleteCardCommand.CanExecute(null);
+		}
+		void DeleteCardExecute()
+		{
+			_parentModel.DeleteCardCommand.Execute(null);
+		}
 
 		#endregion
 
@@ -124,6 +147,7 @@ namespace DesktopApp.ViewModel
 		{
 			InitCommands();
 			_card = card;
+			_parentModel = WorkWindowViewModel.GetViewModel();
 		}
 	}
 }
