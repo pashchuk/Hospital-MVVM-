@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using DesktopApp.Commands;
 using DesktopApp.Model;
 using DesktopApp.View;
 
@@ -14,6 +17,7 @@ namespace DesktopApp.ViewModel
 	{
 		public WorkWindowViewModel()
 		{
+			InitCommands();
 			using (var db = new HospitalContext())
 			{
 //				db.Cards.Load();
@@ -70,12 +74,24 @@ namespace DesktopApp.ViewModel
 
 				CardsViews = new ObservableCollection<CardView>();
 				foreach (var card in db.Cards)
+				{
 					CardsViews.Add(new CardView() {DataContext = new CardViewModel(card)});
+				}
+				_selectedCard = db.Cards.Local[0];
 			}
 		}
-		public string UserName { get; set; }
+
+		#region Private Fields
 
 		private ObservableCollection<CardView> _cardsViews;
+		private FullCardViewModel _fullCardViewModel;
+		private Card _selectedCard;
+
+		#endregion
+
+		#region Public Properties
+
+		public string UserName { get; set; }
 		public ObservableCollection<CardView> CardsViews
 		{
 			get { return _cardsViews; }
@@ -85,6 +101,42 @@ namespace DesktopApp.ViewModel
 				OnPropertyChanged("CardsViews");
 			}
 		}
+		public FullCardViewModel FullCardViewModel
+		{
+			get { return _fullCardViewModel; }
+			set
+			{
+				_fullCardViewModel = value;
+				OnPropertyChanged("FullCardViewModel");
+			}
+		}
+
+		public RelayCommand OpenFullCardCommand { get; private set; }
+
+		#endregion
+
+		#region Command Methods
+
+		void InitCommands()
+		{
+			OpenFullCardCommand = new RelayCommand(OpenFullCardExecute, OpenFullCardCanExecute);
+		}
+
+		private bool OpenFullCardCanExecute()
+		{
+			return _selectedCard != null;
+		}
+		private void OpenFullCardExecute()
+		{
+			FullCardViewModel = new FullCardViewModel(_selectedCard);
+		}
+
+		#endregion
+		
+
+		
+		
+		
 		
 	}
 }
