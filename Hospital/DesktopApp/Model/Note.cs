@@ -23,6 +23,11 @@ namespace DesktopApp.Model
 		public virtual Card Card { get; set; }
 
 		#endregion
+
+		public Note()
+		{
+			Date = DateTime.Now;
+		}
 	}
 	
 }
