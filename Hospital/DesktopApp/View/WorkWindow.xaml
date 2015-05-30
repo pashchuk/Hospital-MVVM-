@@ -44,7 +44,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Grid Visibility="{Binding DataVisibility}" Grid.Column="2" Grid.Row="0" DataContext="{Binding FullCardViewModel}">
+            <Grid Visibility="{Binding DataVisibility}" Grid.Column="2" Grid.Row="0" DataContext="{Binding FullCardViewModel}" Margin="0,-1,0,1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -64,19 +64,34 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding AddNewCardCommand}" Width="30" Height="30" Padding="4">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifyNoteCommand}" Width="30" Height="30" Padding="4" ToolTip="Modify note">
                             <Button.Content>
-                                <Image Source="../resources/images/new.png"/>
+                                <Image Source="../resources/images/note_edit.png"/>
                             </Button.Content>
                         </Button>
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifyCardCommand}" Width="30" Height="30" Padding="4">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding AddNewNoteCommand}" Width="30" Height="30" Padding="4" ToolTip="Create new note">
                             <Button.Content>
-                                <Image Source="../resources/images/modify.png"/>
+                                <Image Source="../resources/images/note_add.png"/>
                             </Button.Content>
                         </Button>
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding DeleteCardCommand}" Width="30" Height="30" Padding="4">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding DeleteNoteCommand}" Width="30" Height="30" Padding="4" ToolTip="Delete note">
                             <Button.Content>
-                                <Image Source="../resources/images/trash.png"/>
+                                <Image Source="../resources/images/note_delete.png"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifyCardCommand}" Width="30" Height="30" Padding="4" ToolTip="Modify card">
+                            <Button.Content>
+                                <Image Source="../resources/images/card_edit.png"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding AddNewCardCommand}" Width="30" Height="30" Padding="4" ToolTip="Create new card">
+                            <Button.Content>
+                                <Image Source="../resources/images/card_add.png"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding DeleteCardCommand}" Width="30" Height="30" Padding="4" ToolTip="Delete card">
+                            <Button.Content>
+                                <Image Source="../resources/images/card_delete.png"/>
                             </Button.Content>
                         </Button>
                     </StackPanel>
