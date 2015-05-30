@@ -63,29 +63,38 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Style="{StaticResource OvalButtonStyle}" Width="25" Height="25" Padding="4">
                             <Button.Content>
                                 <Image Source="../resources/images/modify.png"/>
                             </Button.Content>
                         </Button>
+                        <Button Style="{StaticResource OvalButtonStyle}" Width="25" Height="25" Padding="4">
+                            <Button.Content>
+                                <Image Source="../resources/images/trash.png"/>
+                            </Button.Content>
+                        </Button>
                     </StackPanel>
+                    <WrapPanel Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="5,0">
+                        <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Doctor: " HorizontalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource InfoTextBlock}" Text="{Binding DoctorName}" HorizontalAlignment="Center" Margin="4,0"/>
+                    </WrapPanel>
                     <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
                         <WrapPanel Margin="5,3">
                             <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="First Name:" HorizontalAlignment="Center"/>
-                            <TextBox Style="{StaticResource InfoTextBox}" Text="Eduard" HorizontalAlignment="Center" Margin="4,0"/>
+                            <TextBox Style="{StaticResource InfoTextBox}" Text="{Binding FirstName}" HorizontalAlignment="Center" Margin="4,0"/>
                         </WrapPanel>
                         <WrapPanel Margin="5,3">
                             <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Last Name:" HorizontalAlignment="Center"/>
-                            <TextBox Style="{StaticResource InfoTextBox}" Text="Pashchuk" HorizontalAlignment="Center" Margin="4,0"/>
+                            <TextBox Style="{StaticResource InfoTextBox}" Text="{Binding LastName}" HorizontalAlignment="Center" Margin="4,0"/>
                         </WrapPanel>
                         <WrapPanel Margin="5,3">
                             <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Middle Name:" HorizontalAlignment="Center"/>
-                            <TextBox Style="{StaticResource InfoTextBox}" Text="Fedorovich" HorizontalAlignment="Center" Margin="4,0"/>
+                            <TextBox Style="{StaticResource InfoTextBox}" Text="{Binding MiddleName}" HorizontalAlignment="Center" Margin="4,0"/>
                         </WrapPanel>
                         <WrapPanel Margin="5,3">
                             <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Age:" HorizontalAlignment="Center"/>
-                            <TextBox Style="{StaticResource InfoTextBox}" Text="20" HorizontalAlignment="Center" Margin="4,0"/>
+                            <TextBox Style="{StaticResource InfoTextBox}" Text="{Binding Age}" HorizontalAlignment="Center" Margin="4,0"/>
                         </WrapPanel>
                     </WrapPanel>
                 </Grid>
