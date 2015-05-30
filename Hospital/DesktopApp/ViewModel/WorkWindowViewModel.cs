@@ -52,9 +52,9 @@ namespace DesktopApp.ViewModel
 //					Address = "Kyiv, Ukraine",
 //					Age = 20,
 //					Email = "as@asd.asd",
-//					FirstName = "Пащук",
-//					LastName = "Едуард",
-//					MiddleName = "Федорович",
+//					FirstName = "Попов",
+//					LastName = "Іван",
+//					MiddleName = "Іванович",
 //					Sex = "Male",
 //					Phone = "0961234567",
 //					Password = "1111",
@@ -68,9 +68,8 @@ namespace DesktopApp.ViewModel
 //				db.Cards.Add(card2);
 //				db.Doctors.Add(doc);
 //				db.SaveChanges();
-
-				db.Cards.Load();
-				db.Patients.Load();
+//
+				db.LoadAll();
 				db.SaveChanges();
 
 				CardsViews = new ObservableCollection<CardView>();

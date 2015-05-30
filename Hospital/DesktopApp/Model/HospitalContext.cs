@@ -34,5 +34,15 @@ namespace DesktopApp.Model
 		public DbSet<Note> Notes { get; set; }
 		public DbSet<Session> Sessions { get; set; }
 		public DbSet<Diagnosis> Diagnoses { get; set; }
+
+		public void LoadAll()
+		{
+			this.Cards.Load();
+			this.Patients.Load();
+			this.Doctors.Load();
+			this.Notes.Load();
+			this.Sessions.Load();
+			this.Diagnoses.Load();
+		}
 	}
 }
