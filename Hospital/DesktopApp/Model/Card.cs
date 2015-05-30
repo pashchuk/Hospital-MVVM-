@@ -22,11 +22,15 @@ namespace DesktopApp.Model
 		[Required]
 		public virtual User Patient { get; set; }
 		public virtual Doctor OwnerDoctor { get; set; }
+		public virtual List<Session> Sesions { get; private set; }
+		public virtual List<Note> Notes { get; private set; }
 
 		#endregion
 
 		public Card()
 		{
+			Notes = new List<Note>();
+			Sesions = new List<Session>();
 			CreationDate = DateTime.Now;
 		}
 	}

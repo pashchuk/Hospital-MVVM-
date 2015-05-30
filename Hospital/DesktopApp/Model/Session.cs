@@ -6,28 +6,13 @@ using System.Threading.Tasks;
 
 namespace DesktopApp.Model
 {
-	public class Note
+	public class Session
 	{
-		#region Properties
-
 		public int Id { get; private set; }
-		public string NoteText { get; set; }
+		public bool IsAgain { get; set; }
 		public DateTime Date { get; set; }
- 
 
-		#endregion
-
-		#region Navigation Properties
-
-		public virtual Doctor Doctor { get; set; }
 		public virtual Card Card { get; set; }
-
-		#endregion
-
-		public Note()
-		{
-			Date = DateTime.Now;
-		}
+		public virtual Diagnosis Diagnosis { get; set; }
 	}
-	
 }

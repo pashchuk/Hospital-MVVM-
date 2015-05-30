@@ -70,7 +70,8 @@ namespace DesktopApp.ViewModel
 //				db.SaveChanges();
 
 				db.Cards.Load();
-				db.Users.Load();
+				db.Patients.Load();
+				db.SaveChanges();
 
 				CardsViews = new ObservableCollection<CardView>();
 				foreach (var card in db.Cards)

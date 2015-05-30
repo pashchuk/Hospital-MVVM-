@@ -68,6 +68,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Model\Diagnosis.cs" />
+    <Compile Include="Model\Session.cs" />
     <Compile Include="ViewModel\CardViewModel.cs" />
     <Compile Include="ViewModel\FullCardViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />

@@ -29,8 +29,10 @@ namespace DesktopApp.Model
 		}
 
 		public DbSet<Card> Cards { get; set; }
-		public DbSet<User> Users { get; set; }
+		public DbSet<Patient> Patients{ get; set; }
 		public DbSet<Doctor> Doctors { get; set; }
 		public DbSet<Note> Notes { get; set; }
+		public DbSet<Session> Sessions { get; set; }
+		public DbSet<Diagnosis> Diagnoses { get; set; }
 	}
 }

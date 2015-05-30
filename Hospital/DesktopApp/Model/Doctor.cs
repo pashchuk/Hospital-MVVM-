@@ -10,7 +10,7 @@ namespace DesktopApp.Model
 	public class Doctor : User
 	{
 		public string Office { get; set; }
-		public virtual List<Card> Cards { get; set; }
+		public virtual List<Card> Cards { get; private set; }
 
 		public Doctor()
 		{
