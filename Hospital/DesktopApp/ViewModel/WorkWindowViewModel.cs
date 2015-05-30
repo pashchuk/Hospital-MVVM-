@@ -7,6 +7,7 @@ using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media;
 using DesktopApp.Commands;
 using DesktopApp.Model;
 using DesktopApp.View;
@@ -76,7 +77,9 @@ namespace DesktopApp.ViewModel
 				CardsViews = new ObservableCollection<CardView>();
 				foreach (var card in dbs.Cards)
 				{
-					CardsViews.Add(new CardView() {DataContext = new CardViewModel(card)});
+					var view = new CardView() {DataContext = new CardViewModel(card)};
+					ConfigureAnimation(view);
+					CardsViews.Add(view);
 				}
 				_selectedCard = dbs.Cards.Local[0];
 			}
@@ -87,6 +90,7 @@ namespace DesktopApp.ViewModel
 		private ObservableCollection<CardView> _cardsViews;
 		private FullCardViewModel _fullCardViewModel;
 		private Card _selectedCard;
+		private CardView _selectedCardView, _prevSelectedCardView;
 
 		#endregion
 
@@ -161,6 +165,44 @@ namespace DesktopApp.ViewModel
 		private void OpenFullCardExecute()
 		{
 			FullCardViewModel = new FullCardViewModel(_selectedCard);
+		}
+
+		#endregion
+
+		#region Private Methods
+
+		private void ConfigureAnimation(CardView view)
+		{
+			view.MouseEnter += view_MouseEnter;
+			view.MouseLeave += view_MouseLeave;
+			view.MouseLeftButtonDown += view_MouseLeftButtonDown;
+		}
+		void view_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			var view = sender as CardView;
+			_prevSelectedCardView = _selectedCardView;
+			_selectedCardView = view;
+			view.Rectangle.Fill = new SolidColorBrush(Color.FromRgb(0x7f, 0x9f, 0x9f));
+			view.MouseLeave -= view_MouseLeave;
+			view.MouseEnter -= view_MouseEnter;
+			if (_prevSelectedCardView != null)
+			{
+				_prevSelectedCardView.Rectangle.Fill = new SolidColorBrush(Colors.DarkSlateGray);
+				_prevSelectedCardView.MouseEnter += view_MouseEnter;
+				_prevSelectedCardView.MouseLeave += view_MouseLeave;
+			}
+			_selectedCard = (view.DataContext as CardViewModel).GetCard();
+			OpenFullCardCommand.Execute(null);
+		}
+		void view_MouseLeave(object sender, MouseEventArgs e)
+		{
+			var view = sender as CardView;
+			view.Rectangle.Fill = new SolidColorBrush(Colors.DarkSlateGray);
+		}
+		void view_MouseEnter(object sender, MouseEventArgs e)
+		{
+			var view = sender as CardView;
+			view.Rectangle.Fill = new SolidColorBrush(Color.FromRgb(0x4f, 0x6f, 0x6f));
 		}
 
 		#endregion
