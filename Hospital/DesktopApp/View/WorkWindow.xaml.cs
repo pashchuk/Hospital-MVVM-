@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using DesktopApp.Model;
 using DesktopApp.ViewModel;
 
 namespace DesktopApp.View
@@ -22,9 +23,9 @@ namespace DesktopApp.View
 	{
 		public WorkWindow()
 		{
-			var model = WorkWindowViewModel.GetViewModel();
-			model.UserName = "Pashchuk Eduard Fedorovich";
-			this.DataContext = model;
+			var user = HospitalContext.GetContext().Doctors.First();
+			if (user != null)
+				this.DataContext = WorkWindowViewModel.Login(user);
 			InitializeComponent();
 		}
 	}

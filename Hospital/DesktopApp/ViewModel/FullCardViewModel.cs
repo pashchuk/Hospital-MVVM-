@@ -11,10 +11,9 @@ namespace DesktopApp.ViewModel
 {
 	public class FullCardViewModel : ViewModelBase
 	{
-		private WorkWindowViewModel _parentModel;
 		private Card _card;
 		private bool _state = false;
-		private Visibility _dataVisibility;
+		private Visibility _dataVisibility = Visibility.Hidden;
 
 		public string DoctorName
 		{
@@ -113,6 +112,7 @@ namespace DesktopApp.ViewModel
 		}
 		public RelayCommand ModifyCardCommand { get; private set; }
 		public RelayCommand DeleteCardCommand { get; private set; }
+		public RelayCommand AddNewCardCommand { get; private set; }
 
 		#region Commands
 
@@ -120,6 +120,7 @@ namespace DesktopApp.ViewModel
 		{
 			ModifyCardCommand = new RelayCommand(ModifyCardExecute, ModifyCardCanExecute);
 			DeleteCardCommand = new RelayCommand(DeleteCardExecute, DeleteCardCanExecute);
+			AddNewCardCommand = new RelayCommand(AddNewCardExecute, AddNewCardCanExecute);
 		}
 
 		bool ModifyCardCanExecute()
@@ -132,11 +133,19 @@ namespace DesktopApp.ViewModel
 		}
 		bool DeleteCardCanExecute()
 		{
-			return _parentModel.DeleteCardCommand.CanExecute(null);
+			return WorkWindowViewModel.GetViewModel().DeleteCardCommand.CanExecute(null);
 		}
 		void DeleteCardExecute()
 		{
-			_parentModel.DeleteCardCommand.Execute(null);
+			WorkWindowViewModel.GetViewModel().DeleteCardCommand.Execute(null);
+		}
+		bool AddNewCardCanExecute()
+		{
+			return WorkWindowViewModel.GetViewModel().AddNewCardCommand.CanExecute(null);
+		}
+		void AddNewCardExecute()
+		{
+			WorkWindowViewModel.GetViewModel().AddNewCardCommand.Execute(null);
 		}
 
 		#endregion
@@ -147,7 +156,7 @@ namespace DesktopApp.ViewModel
 		{
 			InitCommands();
 			_card = card;
-			_parentModel = WorkWindowViewModel.GetViewModel();
+			_dataVisibility = Visibility.Visible;
 		}
 	}
 }
