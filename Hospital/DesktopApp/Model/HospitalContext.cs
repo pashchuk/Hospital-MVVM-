@@ -11,10 +11,22 @@ namespace DesktopApp.Model
 	[DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
 	public class HospitalContext : DbContext
 	{
-		public HospitalContext()
+		private static volatile HospitalContext _context;
+		private static object _lock = new object();
+
+		private HospitalContext()
 			: base("HospitalContext")
 		{
 			this.Configuration.ValidateOnSaveEnabled = false;
+		}
+
+		public static HospitalContext GetContext()
+		{
+			if (_context != null) return _context;
+			lock (_lock)
+				if(_context==null)
+					_context = new HospitalContext();
+			return _context;
 		}
 
 		static HospitalContext()

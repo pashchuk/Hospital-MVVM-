@@ -10,6 +10,7 @@ using System.Windows.Input;
 using DesktopApp.Commands;
 using DesktopApp.Model;
 using DesktopApp.View;
+using db = DesktopApp.Model.HospitalContext;
 
 namespace DesktopApp.ViewModel
 {
@@ -18,7 +19,7 @@ namespace DesktopApp.ViewModel
 		public WorkWindowViewModel()
 		{
 			InitCommands();
-			using (var db = new HospitalContext())
+			using (var dbs = db.GetContext())
 			{
 //				db.Cards.Load();
 //				
@@ -69,15 +70,15 @@ namespace DesktopApp.ViewModel
 //				db.Doctors.Add(doc);
 //				db.SaveChanges();
 //
-				db.LoadAll();
-				db.SaveChanges();
+				dbs.LoadAll();
+				dbs.SaveChanges();
 
 				CardsViews = new ObservableCollection<CardView>();
-				foreach (var card in db.Cards)
+				foreach (var card in dbs.Cards)
 				{
 					CardsViews.Add(new CardView() {DataContext = new CardViewModel(card)});
 				}
-				_selectedCard = db.Cards.Local[0];
+				_selectedCard = dbs.Cards.Local[0];
 			}
 		}
 
@@ -163,11 +164,6 @@ namespace DesktopApp.ViewModel
 		}
 
 		#endregion
-		
-
-		
-		
-		
 		
 	}
 }
