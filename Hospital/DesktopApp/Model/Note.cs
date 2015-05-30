@@ -10,7 +10,7 @@ namespace DesktopApp.Model
 	{
 		#region Properties
 
-		public int NoteId { get; set; }
+		public int Id { get; set; }
 		public string NoteText { get; set; }
 		public DateTime Date { get; set; }
  
