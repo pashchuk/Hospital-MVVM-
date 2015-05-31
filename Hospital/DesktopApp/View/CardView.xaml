@@ -32,7 +32,7 @@
             <ColumnDefinition Width="7*"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
-        <Rectangle x:Name="Rectangle" Grid.ColumnSpan="2" Grid.RowSpan="3" Fill="{StaticResource ContentBrush}" RadiusX="15" RadiusY="25"/>
+        <Rectangle x:Name="Rectangle" Grid.ColumnSpan="2" Grid.RowSpan="3" Fill="{StaticResource ContentBrush}" RadiusX="5" RadiusY="5"/>
         <StackPanel Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Style="{StaticResource InfoTextBlock}" FontWeight="Normal" Text="{Binding Name}"/>
         </StackPanel>
