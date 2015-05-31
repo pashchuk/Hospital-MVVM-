@@ -15,7 +15,7 @@ namespace DesktopApp.ViewModel
 		private Card _card;
 		public string Name
 		{
-			get { return _card.Patient.FirstName; }
+			get { return string.Format("{0} {1}", _card.Patient.FirstName, _card.Patient.LastName); }
 			set
 			{
 				_card.Patient.FirstName = value;
