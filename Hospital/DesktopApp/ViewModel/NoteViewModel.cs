@@ -62,5 +62,16 @@ namespace DesktopApp.ViewModel
 			Date = DateTime.Now;
 			HospitalContext.GetContext().SaveChanges();
 		}
+
+		public NoteViewModel(Note note)
+		{
+			_note = note;
+			State = false;
+		}
+
+		public Note GetNote()
+		{
+			return _note;
+		}
 	}
 }

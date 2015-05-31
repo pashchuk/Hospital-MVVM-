@@ -139,7 +139,7 @@
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Notes" Style="{StaticResource InfoAskTextBlock}" HorizontalAlignment="Center"/>
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="Sessions" Style="{StaticResource InfoAskTextBlock}" HorizontalAlignment="Center"/>
                 <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource MainBorderStyle}">
-                    <ItemsControl Grid.Row="2" Grid.Column="0">
+                    <ItemsControl Grid.Row="2" Grid.Column="0" ItemsSource="{Binding NoteViews}">
                         <ItemsControl.Template>
                             <ControlTemplate>
                                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -149,7 +149,7 @@
                         </ItemsControl.Template>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-
+                                <windows:NoteView/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
