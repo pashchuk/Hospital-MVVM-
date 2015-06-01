@@ -11,6 +11,7 @@ namespace DesktopApp.ViewModel
 	{
 		private Note _note;
 		private bool _state;
+		private string _noteTextCopy;
 
 		public int Id { get; private set; }
 		public string NoteText
@@ -43,31 +44,33 @@ namespace DesktopApp.ViewModel
 			set
 			{
 				_state = value;
-				OnPropertyChanged("Sate");
+				OnPropertyChanged("State");
 			}
 		}
 
 		public void ChangeStateToModify()
 		{
 			State = true;
+			_noteTextCopy = NoteText;
 		}
 
 		public void Cancel()
 		{
 			State = false;
+			NoteText = _noteTextCopy;
 		}
 
 		public void SaveChanges()
 		{
 			State = false;
 			Date = DateTime.Now;
-			HospitalContext.GetContext().SaveChanges();
 		}
 
 		public NoteViewModel(Note note, int id)
 		{
 			_note = note;
 			Id = id;
+			_noteTextCopy = NoteText;
 			State = false;
 		}
 

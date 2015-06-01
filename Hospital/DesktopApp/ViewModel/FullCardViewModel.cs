@@ -192,15 +192,19 @@ namespace DesktopApp.ViewModel
 
 		bool ModifyCardCanExecute()
 		{
-			return !State;
+			return _changes == ChangesState.Synchronized && !State;
 		}
 		void ModifyCardExecute()
 		{
 			State = true;
+			_changes = ChangesState.CardChanged;
 		}
 		bool DeleteCardCanExecute()
 		{
-			return WorkWindowViewModel.GetViewModel().DeleteCardCommand.CanExecute(null);
+			return _changes == ChangesState.Synchronized 
+				&& !State
+				&& WorkWindowViewModel.GetViewModel()
+				.DeleteCardCommand.CanExecute(null);
 		}
 		void DeleteCardExecute()
 		{
@@ -226,17 +230,10 @@ namespace DesktopApp.ViewModel
 		}
 		private void ModifyNoteExecute()
 		{
-			if (MessageBox.Show("Are you realy want to delete this Note?", "Warning",
-				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
-				return;
-			NoteViews.Remove(_selectedNoteView);
-			HospitalContext.GetContext().Notes.Remove(_selectedNote);
-			if (NoteViews.Count != 0)
-			{
-				_selectedNoteView = NoteViews[0];
-				_selectedNote = (_selectedNoteView.DataContext as NoteViewModel).GetNote();
-			}
-			HospitalContext.GetContext().SaveChangesAsync();
+			_modifiedNoteView = _selectedNoteView;
+			_modifiedNote = _selectedNote;
+			(_modifiedNoteView.DataContext as NoteViewModel).ChangeStateToModify();
+			_changes = ChangesState.NoteChanged;
 		}
 		private bool DeleteNoteCanExecute()
 		{
@@ -254,7 +251,7 @@ namespace DesktopApp.ViewModel
 			if (NoteViews.Count != 0)
 			{
 				_selectedNoteView = NoteViews[0];
-				_selectedNote = (_selectedNoteView.DataContext as NoteViewModel).GetNote();
+				_selectedNote = (_selectedSessionView.DataContext as NoteViewModel).GetNote();
 			}
 			HospitalContext.GetContext().SaveChangesAsync();
 		}
@@ -266,14 +263,28 @@ namespace DesktopApp.ViewModel
 		}
 		private void AddNewNoteExecute()
 		{
-			var Note = HospitalContext.GetContext().Notes.Add(new Note());
-			var NoteView = new NoteView() { DataContext = new NoteViewModel(Note) };
-			ConfigureAnimation(NoteView);
-			HospitalContext.GetContext().SaveChangesAsync();
-			_selectedNote = Note;
-			_selectedNote.Doctor = WorkWindowViewModel.GetViewModel().LoginedUser as Doctor;
-			_selectedNoteView = NoteView;
-			(_selectedNoteView.DataContext as NoteViewModel).ChangeStateToModify();
+			var newsNote = new Note()
+			{
+				Doctor = WorkWindowViewModel.GetViewModel().LoginedUser as Doctor,
+				Session = _selectedSession
+			};
+			var view = new NoteView() {DataContext = new NoteViewModel(newsNote)};
+			ConfigureAnimation(view);
+			_modifiedNoteView = view;
+			_modifiedNote = newsNote;
+			_selectedNote = newsNote;
+			_prevSelectedNoteView = _selectedNoteView;
+			_selectedNoteView = view;
+			view.Rectangle.Fill = new SolidColorBrush(Color.FromRgb(0x7f, 0x9f, 0x9f));
+			if (_prevSelectedNoteView != null && !ReferenceEquals(_prevSelectedNoteView, _selectedNoteView))
+			{
+				_prevSelectedNoteView.Rectangle.Fill = new SolidColorBrush(Colors.DarkSlateGray);
+				_prevSelectedNoteView.MouseEnter += sessionView_MouseEnter;
+				_prevSelectedNoteView.MouseLeave += sessionView_MouseLeave;
+			}
+			(view.DataContext as NoteViewModel).ChangeStateToModify();
+			NoteViews.Insert(0, view);
+			_changes = ChangesState.NoteCreated;
 		}
 
 		void InitNotes()
@@ -353,7 +364,7 @@ namespace DesktopApp.ViewModel
 			(view.DataContext as SessionViewModel).ChangeStateToModify();
 			SessionViews.Insert(0, view);
 			InitNotes();
-			_changes = ChangesState.SessionChanged;
+			_changes = ChangesState.SessionCreated;
 		}
 
 		void InitSession()
@@ -396,6 +407,7 @@ namespace DesktopApp.ViewModel
 					break;
 				case ChangesState.NoteCreated:
 					(_selectedNoteView.DataContext as NoteViewModel).SaveChanges();
+					HospitalContext.GetContext().Notes.Add(_modifiedNote);
 					ResetChanges();
 					break;
 				case ChangesState.NoteChanged:
@@ -406,6 +418,7 @@ namespace DesktopApp.ViewModel
 					ResetChanges();
 					break;
 				case ChangesState.CardChanged:
+					State = false;
 					ResetChanges();
 					break;	
 			}
@@ -430,17 +443,19 @@ namespace DesktopApp.ViewModel
 					ResetChanges();
 					break;
 				case ChangesState.NoteCreated:
-					(_modifiedNoteView.DataContext as NoteViewModel).SaveChanges();
+					(_modifiedNoteView.DataContext as NoteViewModel).Cancel();
+					NoteViews.Remove(_modifiedNoteView);
 					ResetChanges();
 					break;
 				case ChangesState.NoteChanged:
-					(_selectedNoteView.DataContext as NoteViewModel).SaveChanges();
+					(_modifiedNoteView.DataContext as NoteViewModel).Cancel();
 					ResetChanges();
 					break;
 				case ChangesState.CardCreated:
 					ResetChanges();
 					break;
 				case ChangesState.CardChanged:
+					State = false;
 					ResetChanges();
 					break;
 			}
