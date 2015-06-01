@@ -64,6 +64,17 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel x:Name="menuPanel" Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding SaveCommand}" Width="30" Height="30" Padding="4" ToolTip="Save changes">
+                            <Button.Content>
+                                <Image Source="../resources/images/save.png"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding CancelCommand}" Width="30" Height="30" Padding="4" ToolTip="Cancel">
+                            <Button.Content>
+                                <Image Source="../resources/images/cancel.png"/>
+                            </Button.Content>
+                        </Button>
+                        <Line Margin="2,0" StrokeThickness="3" Stroke="AliceBlue" Y1="4" Y2="30" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
                         <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifySessionCommand}" Width="30" Height="30" Padding="4" ToolTip="Modify session">
                             <Button.Content>
                                 <Image Source="../resources/images/note_edit.png"/>
