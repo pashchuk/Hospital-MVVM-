@@ -18,8 +18,15 @@ namespace DesktopApp.ViewModel
 {
 	public class FullCardViewModel : ViewModelBase
 	{
+		internal enum ChangesState
+		{
+			NoteChanged,
+			CardChanged,
+			SessionChanged
+		};
 		private Card _card;
 		private bool _state = false;
+		private bool _changes = false;
 		private Visibility _dataVisibility = Visibility.Hidden;
 
 		private ObservableCollection<NoteView> _noteViews;
@@ -153,6 +160,8 @@ namespace DesktopApp.ViewModel
 		public RelayCommand ModifyNoteCommand { get; private set; }
 		public RelayCommand DeleteNoteCommand { get; private set; }
 		public RelayCommand AddNewNoteCommand { get; private set; }
+		public RelayCommand SaveCommand { get; private set; }
+		public RelayCommand CancelCommand { get; private set; }
 
 		#region Commands
 
@@ -167,6 +176,8 @@ namespace DesktopApp.ViewModel
 			ModifyNoteCommand = new RelayCommand(ModifyNoteExecute, ModifyNoteCanExecute);
 			DeleteNoteCommand = new RelayCommand(DeleteNoteExecute, DeleteNoteCanExecute);
 			AddNewNoteCommand = new RelayCommand(AddNewNoteExecute, AddNewNoteCanExecute);
+			SaveCommand = new RelayCommand(SaveExecute, SaveCanExecute);
+			CancelCommand = new RelayCommand(CancelExecute, CancelCanExecute);
 		}
 
 		#region Card commands
@@ -271,25 +282,15 @@ namespace DesktopApp.ViewModel
 		#region Session Commands
 		private bool ModifySessionCanExecute()
 		{
-			return _selectedNote != null && _selectedNoteView != null;
+			return _selectedSession != null && _selectedSessionView != null;
 		}
 		private void ModifySessionExecute()
 		{
-			if (MessageBox.Show("Are you realy want to delete this Note?", "Warning",
-				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
-				return;
-			NoteViews.Remove(_selectedNoteView);
-			HospitalContext.GetContext().Notes.Remove(_selectedNote);
-			if (NoteViews.Count != 0)
-			{
-				_selectedNoteView = NoteViews[0];
-				_selectedNote = (_selectedNoteView.DataContext as NoteViewModel).GetNote();
-			}
-			HospitalContext.GetContext().SaveChangesAsync();
+			(_selectedSessionView.DataContext as SessionViewModel).ChangeStateToModify();
 		}
 		private bool DeleteSessionCanExecute()
 		{
-			return _selectedNote != null && _selectedNoteView != null;
+			return _selectedSession!= null && _selectedSessionView != null;
 		}
 		private void DeleteSessionExecute()
 		{
@@ -311,9 +312,11 @@ namespace DesktopApp.ViewModel
 		}
 		private void AddNewSessionExecute()
 		{
-			var newsession = new Session() {Card = _card};
+			var newsession = new Session() {Card = _card, Diagnosis = new Diagnosis()};
 			var view = new SessionView() {DataContext = new SessionViewModel(newsession)};
-			SessionViews.Add(view);
+			_selectedSession = newsession;
+			_selectedSessionView = view;
+			SessionViews.Insert(0, view);
 		}
 
 		void InitSession()
@@ -334,6 +337,28 @@ namespace DesktopApp.ViewModel
 		}
 
 		#endregion
+
+		#region Other Commands
+
+		private bool SaveCanExecute()
+		{
+			return _changes;
+		}
+		private void SaveExecute()
+		{
+			
+		}
+		private bool CancelCanExecute()
+		{
+			return _changes;
+		}
+		private void CancelExecute()
+		{
+			
+		} 
+
+		#endregion
+
 
 		#endregion
 
