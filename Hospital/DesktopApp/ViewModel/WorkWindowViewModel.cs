@@ -204,10 +204,6 @@ namespace DesktopApp.ViewModel
 			view.MouseLeave += view_MouseLeave;
 			view.MouseLeftButtonDown += view_MouseLeftButtonDown;
 		}
-		private void ConfigureAnimation(NoteView view)
-		{
-
-		}
 		void view_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			var view = sender as CardView;
@@ -216,7 +212,7 @@ namespace DesktopApp.ViewModel
 			view.Rectangle.Fill = new SolidColorBrush(Color.FromRgb(0x7f, 0x9f, 0x9f));
 			view.MouseLeave -= view_MouseLeave;
 			view.MouseEnter -= view_MouseEnter;
-			if (_prevSelectedCardView != null)
+			if (_prevSelectedCardView != null && !ReferenceEquals(_prevSelectedCardView,_selectedCardView))
 			{
 				_prevSelectedCardView.Rectangle.Fill = new SolidColorBrush(Colors.DarkSlateGray);
 				_prevSelectedCardView.MouseEnter += view_MouseEnter;
