@@ -79,6 +79,7 @@
     <Compile Include="ViewModel\CardViewModel.cs" />
     <Compile Include="ViewModel\FullCardViewModel.cs" />
     <Compile Include="ViewModel\NoteViewModel.cs" />
+    <Compile Include="ViewModel\SessionViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\WorkWindowViewModel.cs" />
     <Compile Include="View\CardView.xaml.cs">
@@ -86,6 +87,9 @@
     </Compile>
     <Compile Include="View\NoteView.xaml.cs">
       <DependentUpon>NoteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SessionView.xaml.cs">
+      <DependentUpon>SessionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\WorkWindow.xaml.cs">
       <DependentUpon>WorkWindow.xaml</DependentUpon>
@@ -115,6 +119,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\NoteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SessionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

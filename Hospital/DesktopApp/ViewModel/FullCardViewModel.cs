@@ -22,10 +22,13 @@ namespace DesktopApp.ViewModel
 		private bool _state = false;
 		private Visibility _dataVisibility = Visibility.Hidden;
 
-		private ObservableCollection<NoteView> _noteViews; 
+		private ObservableCollection<NoteView> _noteViews;
+		private ObservableCollection<SessionView> _sessionViews;
 
 		private Note _selectedNote;
 		private NoteView _selectedNoteView, _prevSelectedNoteView;
+		private Session _selectedSession;
+		private SessionView _selectedSessionView, _prevSelectedSessionView;
 
 		public string DoctorName
 		{
@@ -132,9 +135,21 @@ namespace DesktopApp.ViewModel
 				OnPropertyChanged("NoteViews");
 			}
 		}
+		public ObservableCollection<SessionView> SessionViews
+		{
+			get { return _sessionViews; }
+			set
+			{
+				_sessionViews = value;
+				OnPropertyChanged("SessionViews");
+			}
+		}
 		public RelayCommand ModifyCardCommand { get; private set; }
 		public RelayCommand DeleteCardCommand { get; private set; }
 		public RelayCommand AddNewCardCommand { get; private set; }
+		public RelayCommand ModifySessionCommand { get; private set; }
+		public RelayCommand DeleteSessionCommand { get; private set; }
+		public RelayCommand AddNewSessionCommand { get; private set; }
 		public RelayCommand ModifyNoteCommand { get; private set; }
 		public RelayCommand DeleteNoteCommand { get; private set; }
 		public RelayCommand AddNewNoteCommand { get; private set; }
@@ -146,6 +161,12 @@ namespace DesktopApp.ViewModel
 			ModifyCardCommand = new RelayCommand(ModifyCardExecute, ModifyCardCanExecute);
 			DeleteCardCommand = new RelayCommand(DeleteCardExecute, DeleteCardCanExecute);
 			AddNewCardCommand = new RelayCommand(AddNewCardExecute, AddNewCardCanExecute);
+			ModifySessionCommand = new RelayCommand(ModifySessionExecute, ModifySessionCanExecute);
+			DeleteSessionCommand = new RelayCommand(DeleteSessionExecute, DeleteSessionCanExecute);
+			AddNewSessionCommand = new RelayCommand(AddNewSessionExecute, AddNewSessionCanExecute);
+			ModifyNoteCommand = new RelayCommand(ModifyNoteExecute, ModifyNoteCanExecute);
+			DeleteNoteCommand = new RelayCommand(DeleteNoteExecute, DeleteNoteCanExecute);
+			AddNewNoteCommand = new RelayCommand(AddNewNoteExecute, AddNewNoteCanExecute);
 		}
 
 		#region Card commands
@@ -178,7 +199,24 @@ namespace DesktopApp.ViewModel
 		#endregion
 
 		#region Note Commands
-
+		private bool ModifyNoteCanExecute()
+		{
+			return _selectedNote != null && _selectedNoteView != null;
+		}
+		private void ModifyNoteExecute()
+		{
+			if (MessageBox.Show("Are you realy want to delete this Note?", "Warning",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+				return;
+			NoteViews.Remove(_selectedNoteView);
+			HospitalContext.GetContext().Notes.Remove(_selectedNote);
+			if (NoteViews.Count != 0)
+			{
+				_selectedNoteView = NoteViews[0];
+				_selectedNote = (_selectedNoteView.DataContext as NoteViewModel).GetNote();
+			}
+			HospitalContext.GetContext().SaveChangesAsync();
+		}
 		private bool DeleteNoteCanExecute()
 		{
 			return _selectedNote != null && _selectedNoteView != null;
@@ -216,7 +254,7 @@ namespace DesktopApp.ViewModel
 		void InitNotes()
 		{
 			var colection = new ObservableCollection<NoteView>();
-			var notes = (from item in _card.Notes
+			var notes = (from item in _selectedSession.Notes
 						 orderby item.Date descending 
 						 select item).Take(30);
 			foreach (var note in notes)
@@ -230,9 +268,80 @@ namespace DesktopApp.ViewModel
 
 		#endregion
 
+		#region Session Commands
+		private bool ModifySessionCanExecute()
+		{
+			return _selectedNote != null && _selectedNoteView != null;
+		}
+		private void ModifySessionExecute()
+		{
+			if (MessageBox.Show("Are you realy want to delete this Note?", "Warning",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+				return;
+			NoteViews.Remove(_selectedNoteView);
+			HospitalContext.GetContext().Notes.Remove(_selectedNote);
+			if (NoteViews.Count != 0)
+			{
+				_selectedNoteView = NoteViews[0];
+				_selectedNote = (_selectedNoteView.DataContext as NoteViewModel).GetNote();
+			}
+			HospitalContext.GetContext().SaveChangesAsync();
+		}
+		private bool DeleteSessionCanExecute()
+		{
+			return _selectedNote != null && _selectedNoteView != null;
+		}
+		private void DeleteSessionExecute()
+		{
+			if (MessageBox.Show("Are you realy want to delete this Note?", "Warning",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+				return;
+			NoteViews.Remove(_selectedNoteView);
+			HospitalContext.GetContext().Notes.Remove(_selectedNote);
+			if (NoteViews.Count != 0)
+			{
+				_selectedNoteView = NoteViews[0];
+				_selectedNote = (_selectedNoteView.DataContext as NoteViewModel).GetNote();
+			}
+			HospitalContext.GetContext().SaveChangesAsync();
+		}
+		private bool AddNewSessionCanExecute()
+		{
+			return true;
+		}
+		private void AddNewSessionExecute()
+		{
+			var newsession = new Session() {Card = _card};
+			var view = new SessionView() {DataContext = new SessionViewModel(newsession)};
+			SessionViews.Add(view);
+		}
+
+		void InitSession()
+		{
+			var colection = new ObservableCollection<SessionView>();
+			var sessions = (from item in _card.Sesions
+						 orderby item.Date descending
+						 select item).Take(10);
+			int counter = sessions.Count();
+			if (counter > 0) _selectedSession = sessions.First();
+			foreach (var session in sessions)
+			{
+				var view = new SessionView() {DataContext = new SessionViewModel(session, counter--)};
+				ConfigureAnimation(view);
+				colection.Add(view);
+			}
+			SessionViews = colection;
+		}
+
+		#endregion
+
 		#endregion
 
 		private void ConfigureAnimation(NoteView view)
+		{
+
+		}
+		private void ConfigureAnimation(SessionView view)
 		{
 
 		}
@@ -269,6 +378,7 @@ namespace DesktopApp.ViewModel
 			_card = card;
 			_dataVisibility = Visibility.Visible;
 			InitCommands();
+			InitSession();
 			InitNotes();
 		}
 	}

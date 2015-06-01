@@ -12,7 +12,7 @@ namespace DesktopApp.ViewModel
 		private Note _note;
 		private bool _state;
 
-		public int Id { get { return _note.Id; } }
+		public int Id { get; private set; }
 		public string NoteText
 		{
 			get { return _note.NoteText; }
@@ -64,10 +64,15 @@ namespace DesktopApp.ViewModel
 			HospitalContext.GetContext().SaveChanges();
 		}
 
-		public NoteViewModel(Note note)
+		public NoteViewModel(Note note, int id)
 		{
 			_note = note;
+			Id = id;
 			State = false;
+		}
+
+		public NoteViewModel(Note note) : this(note, 1)
+		{
 		}
 
 		public Note GetNote()
