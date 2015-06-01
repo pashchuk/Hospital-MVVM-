@@ -63,7 +63,23 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <StackPanel x:Name="menuPanel" Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifySessionCommand}" Width="30" Height="30" Padding="4" ToolTip="Modify session">
+                            <Button.Content>
+                                <Image Source="../resources/images/note_edit.png"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding AddNewSessionCommand}" Width="30" Height="30" Padding="4" ToolTip="Create new session">
+                            <Button.Content>
+                                <Image Source="../resources/images/note_add.png"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding DeleteSessionCommand}" Width="30" Height="30" Padding="4" ToolTip="Delete session">
+                            <Button.Content>
+                                <Image Source="../resources/images/note_delete.png"/>
+                            </Button.Content>
+                        </Button>
+                        <Line Margin="2,0" StrokeThickness="3" Stroke="AliceBlue" Y1="4" Y2="30" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
                         <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifyNoteCommand}" Width="30" Height="30" Padding="4" ToolTip="Modify note">
                             <Button.Content>
                                 <Image Source="../resources/images/note_edit.png"/>
@@ -79,6 +95,7 @@
                                 <Image Source="../resources/images/note_delete.png"/>
                             </Button.Content>
                         </Button>
+                        <Line Margin="2,0" StrokeThickness="3" Stroke="AliceBlue" Y1="4" Y2="30" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
                         <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifyCardCommand}" Width="30" Height="30" Padding="4" ToolTip="Modify card">
                             <Button.Content>
                                 <Image Source="../resources/images/card_edit.png"/>
@@ -139,7 +156,7 @@
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Sessions" Style="{StaticResource InfoAskTextBlock}" HorizontalAlignment="Center"/>
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="Notes" Style="{StaticResource InfoAskTextBlock}" HorizontalAlignment="Center"/>
                 <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource MainBorderStyle}">
-                    <ItemsControl Grid.Row="2" Grid.Column="0" ItemsSource="{Binding SessionsViews}">
+                    <ItemsControl Grid.Row="2" Grid.Column="0" ItemsSource="{Binding SessionViews}">
                         <ItemsControl.Template>
                             <ControlTemplate>
                                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -149,7 +166,7 @@
                         </ItemsControl.Template>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                
+                                <windows:SessionView/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
