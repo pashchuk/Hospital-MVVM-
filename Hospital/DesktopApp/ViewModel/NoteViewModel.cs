@@ -12,6 +12,7 @@ namespace DesktopApp.ViewModel
 		private Note _note;
 		private bool _state;
 
+		public int Id { get { return _note.Id; } }
 		public string NoteText
 		{
 			get { return _note.NoteText; }

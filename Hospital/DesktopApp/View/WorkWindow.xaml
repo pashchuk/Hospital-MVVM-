@@ -51,8 +51,8 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0">
                     <Grid.ColumnDefinitions>
@@ -136,9 +136,25 @@
                         </WrapPanel>
                     </Border>
                 </Grid>
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Notes" Style="{StaticResource InfoAskTextBlock}" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="Sessions" Style="{StaticResource InfoAskTextBlock}" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Sessions" Style="{StaticResource InfoAskTextBlock}" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="Notes" Style="{StaticResource InfoAskTextBlock}" HorizontalAlignment="Center"/>
                 <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource MainBorderStyle}">
+                    <ItemsControl Grid.Row="2" Grid.Column="0" ItemsSource="{Binding SessionsViews}">
+                        <ItemsControl.Template>
+                            <ControlTemplate>
+                                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </ControlTemplate>
+                        </ItemsControl.Template>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource MainBorderStyle}">
                     <ItemsControl Grid.Row="2" Grid.Column="0" ItemsSource="{Binding NoteViews}">
                         <ItemsControl.Template>
                             <ControlTemplate>
@@ -150,22 +166,6 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <windows:NoteView/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-                <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource MainBorderStyle}">
-                    <ItemsControl Grid.Row="2" Grid.Column="0">
-                        <ItemsControl.Template>
-                            <ControlTemplate>
-                                <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                                    <ItemsPresenter/>
-                                </ScrollViewer>
-                            </ControlTemplate>
-                        </ItemsControl.Template>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

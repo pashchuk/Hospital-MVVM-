@@ -217,7 +217,7 @@ namespace DesktopApp.ViewModel
 		{
 			var colection = new ObservableCollection<NoteView>();
 			var notes = (from item in _card.Notes
-						 orderby item.Date descending
+						 orderby item.Date descending 
 						 select item).Take(30);
 			foreach (var note in notes)
 			{
