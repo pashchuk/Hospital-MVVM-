@@ -38,13 +38,16 @@ namespace DesktopApp.Model
 		{
 			modelBuilder.Conventions.Remove<System.Data.Entity.ModelConfiguration.Conventions.PluralizingTableNameConvention>();
 			base.OnModelCreating(modelBuilder);
+			modelBuilder.Entity<Note>()
+				.HasRequired(s => s.Session)
+				.WithMany(s => s.Notes);
 		}
 
 		public DbSet<Card> Cards { get; set; }
 		public DbSet<Patient> Patients{ get; set; }
 		public DbSet<Doctor> Doctors { get; set; }
-		public DbSet<Note> Notes { get; set; }
 		public DbSet<Session> Sessions { get; set; }
+		public DbSet<Note> Notes { get; set; }
 		public DbSet<Diagnosis> Diagnoses { get; set; }
 
 		public void LoadAll()
@@ -52,8 +55,8 @@ namespace DesktopApp.Model
 			this.Cards.Load();
 			this.Patients.Load();
 			this.Doctors.Load();
-			this.Notes.Load();
 			this.Sessions.Load();
+			this.Notes.Load();
 			this.Diagnoses.Load();
 		}
 	}

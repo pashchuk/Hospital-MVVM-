@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace DesktopApp.Model
 		#region Navigation Properties
 
 		public virtual Doctor Doctor { get; set; }
-		public virtual Card Card { get; set; }
+		public virtual Session Session { get; set; }
 
 		#endregion
 

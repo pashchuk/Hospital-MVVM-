@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.RightsManagement;
 using System.Text;
@@ -20,16 +21,14 @@ namespace DesktopApp.Model
 
 		#region Navigation Properties
 		[Required]
-		public virtual User Patient { get; set; }
+		public virtual Patient Patient { get; set; }
 		public virtual Doctor OwnerDoctor { get; set; }
 		public virtual List<Session> Sesions { get; private set; }
-		public virtual List<Note> Notes { get; private set; }
 
 		#endregion
 
 		public Card()
 		{
-			Notes = new List<Note>();
 			Sesions = new List<Session>();
 			CreationDate = DateTime.Now;
 		}
