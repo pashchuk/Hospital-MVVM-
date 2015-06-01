@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DesktopApp.Model
 {
-	public class Diagnosis
+	public class Diagnosis : ICloneable
 	{
 		public int Id { get; private set; }
 		public string Description { get; set; }
@@ -16,6 +16,11 @@ namespace DesktopApp.Model
 		public Diagnosis()
 		{
 			Sessions = new List<Session>();
+		}
+
+		public object Clone()
+		{
+			return this.MemberwiseClone();
 		}
 	}
 }

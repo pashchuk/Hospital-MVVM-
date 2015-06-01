@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DesktopApp.Model
 {
-	public class Session
+	public class Session : ICloneable
 	{
 		public int Id { get; private set; }
 		public DateTime Date { get; private set; }
@@ -21,6 +21,12 @@ namespace DesktopApp.Model
 		{
 			Date = DateTime.Now;
 			Notes = new List<Note>();
+		}
+		public object Clone()
+		{
+			var obj = MemberwiseClone() as Session;
+			obj.Diagnosis = Diagnosis.Clone() as Diagnosis;
+			return obj;
 		}
 	}
 }

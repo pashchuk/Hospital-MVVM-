@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -20,23 +21,28 @@ namespace DesktopApp.ViewModel
 	{
 		internal enum ChangesState
 		{
+			Synchronized,
 			NoteChanged,
 			CardChanged,
-			SessionChanged
+			SessionChanged,
+			NoteCreated,
+			CardCreated,
+			SessionCreated
 		};
 		private Card _card;
 		private bool _state = false;
-		private bool _changes = false;
+		private ChangesState _changes = ChangesState.Synchronized;
 		private Visibility _dataVisibility = Visibility.Hidden;
 
 		private ObservableCollection<NoteView> _noteViews;
 		private ObservableCollection<SessionView> _sessionViews;
 
-		private Note _selectedNote;
-		private NoteView _selectedNoteView, _prevSelectedNoteView;
-		private Session _selectedSession;
-		private SessionView _selectedSessionView, _prevSelectedSessionView;
+		private Note _selectedNote, _modifiedNote;
+		private NoteView _selectedNoteView, _prevSelectedNoteView, _modifiedNoteView;
+		private Session _selectedSession, _modifiedSession;
+		private SessionView _selectedSessionView, _prevSelectedSessionView, _modifiedSessionView;
 
+		#region Public Properties
 		public string DoctorName
 		{
 			get { return string.Format("{0} {1}",_card.OwnerDoctor.FirstName,_card.OwnerDoctor.LastName); }
@@ -163,6 +169,8 @@ namespace DesktopApp.ViewModel
 		public RelayCommand SaveCommand { get; private set; }
 		public RelayCommand CancelCommand { get; private set; }
 
+		#endregion
+
 		#region Commands
 
 		void InitCommands()
@@ -270,7 +278,7 @@ namespace DesktopApp.ViewModel
 						 select item).Take(30);
 			foreach (var note in notes)
 			{
-				var view = new NoteView() { DataContext = new NoteViewModel(note) };
+				var view = new NoteView() { DataContext = new NoteViewModel(note){} };
 				ConfigureAnimation(view);
 				colection.Add(view);
 			}
@@ -282,41 +290,62 @@ namespace DesktopApp.ViewModel
 		#region Session Commands
 		private bool ModifySessionCanExecute()
 		{
-			return _selectedSession != null && _selectedSessionView != null;
+			return _selectedSession != null 
+				&& _selectedSessionView != null 
+				&& _changes == ChangesState.Synchronized;
 		}
 		private void ModifySessionExecute()
 		{
-			(_selectedSessionView.DataContext as SessionViewModel).ChangeStateToModify();
+			_modifiedSessionView = _selectedSessionView;
+			_modifiedSession = _selectedSession;
+			(_modifiedSessionView.DataContext as SessionViewModel).ChangeStateToModify();
+			_changes = ChangesState.SessionChanged;
 		}
 		private bool DeleteSessionCanExecute()
 		{
-			return _selectedSession!= null && _selectedSessionView != null;
+			return _selectedSession != null
+				&& _selectedSessionView != null
+				&& _changes == ChangesState.Synchronized;
 		}
 		private void DeleteSessionExecute()
 		{
-			if (MessageBox.Show("Are you realy want to delete this Note?", "Warning",
+			if (MessageBox.Show("Are you realy want to delete this Session?", "Warning",
 				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 				return;
-			NoteViews.Remove(_selectedNoteView);
-			HospitalContext.GetContext().Notes.Remove(_selectedNote);
-			if (NoteViews.Count != 0)
+			SessionViews.Remove(_selectedSessionView);
+			HospitalContext.GetContext().Sessions.Remove(_selectedSession);
+			if (SessionViews.Count != 0)
 			{
-				_selectedNoteView = NoteViews[0];
-				_selectedNote = (_selectedNoteView.DataContext as NoteViewModel).GetNote();
+				_selectedSessionView= SessionViews[0];
+				_selectedSession = (_selectedSessionView.DataContext as SessionViewModel).GetSession();
 			}
 			HospitalContext.GetContext().SaveChangesAsync();
 		}
 		private bool AddNewSessionCanExecute()
 		{
-			return true;
+			return _changes == ChangesState.Synchronized;
 		}
 		private void AddNewSessionExecute()
 		{
 			var newsession = new Session() {Card = _card, Diagnosis = new Diagnosis()};
 			var view = new SessionView() {DataContext = new SessionViewModel(newsession)};
+			ConfigureAnimation(view);
+			_modifiedSessionView = view;
+			_modifiedSession = newsession;
 			_selectedSession = newsession;
+			_prevSelectedSessionView = _selectedSessionView;
 			_selectedSessionView = view;
+			view.Rectangle.Fill = new SolidColorBrush(Color.FromRgb(0x7f, 0x9f, 0x9f));
+			if (_prevSelectedSessionView != null && !ReferenceEquals(_prevSelectedSessionView, _selectedSessionView))
+			{
+				_prevSelectedSessionView.Rectangle.Fill = new SolidColorBrush(Colors.DarkSlateGray);
+				_prevSelectedSessionView.MouseEnter += sessionView_MouseEnter;
+				_prevSelectedSessionView.MouseLeave += sessionView_MouseLeave;
+			}
+			(view.DataContext as SessionViewModel).ChangeStateToModify();
 			SessionViews.Insert(0, view);
+			InitNotes();
+			_changes = ChangesState.SessionChanged;
 		}
 
 		void InitSession()
@@ -342,62 +371,124 @@ namespace DesktopApp.ViewModel
 
 		private bool SaveCanExecute()
 		{
-			return _changes;
+			return _changes != ChangesState.Synchronized;
 		}
 		private void SaveExecute()
 		{
-			
+			switch (_changes)
+			{
+				case ChangesState.SessionCreated:
+					(_modifiedSessionView.DataContext as SessionViewModel).SaveChanges();
+					HospitalContext.GetContext().Sessions.Add(_modifiedSession);
+					ResetChanges();
+					break;
+				case ChangesState.SessionChanged:
+					(_modifiedSessionView.DataContext as SessionViewModel).SaveChanges();
+					ResetChanges();
+					break;
+				case ChangesState.NoteCreated:
+					(_selectedNoteView.DataContext as NoteViewModel).SaveChanges();
+					ResetChanges();
+					break;
+				case ChangesState.NoteChanged:
+					(_selectedNoteView.DataContext as NoteViewModel).SaveChanges();
+					ResetChanges();
+					break;
+				case ChangesState.CardCreated:
+					ResetChanges();
+					break;
+				case ChangesState.CardChanged:
+					ResetChanges();
+					break;	
+			}
+			HospitalContext.GetContext().SaveChangesAsync();
 		}
 		private bool CancelCanExecute()
 		{
-			return _changes;
+			return _changes != ChangesState.Synchronized;
 		}
 		private void CancelExecute()
 		{
-			
-		} 
+			switch (_changes)
+			{
+				case ChangesState.SessionCreated:
+					(_modifiedSessionView.DataContext as SessionViewModel).Cancel();
+					SessionViews.Remove(_modifiedSessionView);
+					_modifiedSessionView = null;
+					ResetChanges();
+					break;
+				case ChangesState.SessionChanged:
+					(_modifiedSessionView.DataContext as SessionViewModel).Cancel();
+					ResetChanges();
+					break;
+				case ChangesState.NoteCreated:
+					(_selectedNoteView.DataContext as NoteViewModel).SaveChanges();
+					ResetChanges();
+					break;
+				case ChangesState.NoteChanged:
+					(_selectedNoteView.DataContext as NoteViewModel).SaveChanges();
+					ResetChanges();
+					break;
+				case ChangesState.CardCreated:
+					ResetChanges();
+					break;
+				case ChangesState.CardChanged:
+					ResetChanges();
+					break;
+			}
+			HospitalContext.GetContext().SaveChangesAsync();
+		}
+		void ResetChanges()
+		{
+			_changes = ChangesState.Synchronized;
+		}
 
 		#endregion
 
 
 		#endregion
 
+		#region Animation
 		private void ConfigureAnimation(NoteView view)
 		{
 
 		}
 		private void ConfigureAnimation(SessionView view)
 		{
-
+			view.MouseEnter += sessionView_MouseEnter;
+			view.MouseLeave += sessionView_MouseLeave;
+			view.MouseLeftButtonDown += sessionView_MouseLeftButtonDown;
 		}
-//		void view_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-//		{
-//			var view = sender as CardView;
-//			_prevSelectedCardView = _selectedCardView;
-//			_selectedCardView = view;
-//			view.Rectangle.Fill = new SolidColorBrush(Color.FromRgb(0x7f, 0x9f, 0x9f));
-//			view.MouseLeave -= view_MouseLeave;
-//			view.MouseEnter -= view_MouseEnter;
-//			if (_prevSelectedCardView != null)
-//			{
-//				_prevSelectedCardView.Rectangle.Fill = new SolidColorBrush(Colors.DarkSlateGray);
-//				_prevSelectedCardView.MouseEnter += view_MouseEnter;
-//				_prevSelectedCardView.MouseLeave += view_MouseLeave;
-//			}
-//			_selectedCard = (view.DataContext as CardViewModel).GetCard();
-//			OpenFullCardCommand.Execute(null);
-//		}
-//		void view_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-//		{
-//			var view = sender as CardView;
-//			view.Rectangle.Fill = new SolidColorBrush(Colors.DarkSlateGray);
-//		}
-//		void view_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-//		{
-//			var view = sender as CardView;
-//			view.Rectangle.Fill = new SolidColorBrush(Color.FromRgb(0x4f, 0x6f, 0x6f));
-//		}
 
+		void sessionView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			var view = sender as SessionView;
+			_prevSelectedSessionView = _selectedSessionView;
+			_selectedSessionView = view;
+			view.Rectangle.Fill = new SolidColorBrush(Color.FromRgb(0x7f, 0x9f, 0x9f));
+			view.MouseLeave -= sessionView_MouseLeave;
+			view.MouseEnter -= sessionView_MouseEnter;
+			if (_prevSelectedSessionView != null && !ReferenceEquals(_prevSelectedSessionView, _selectedSessionView))
+			{
+				_prevSelectedSessionView.Rectangle.Fill = new SolidColorBrush(Colors.DarkSlateGray);
+				_prevSelectedSessionView.MouseEnter += sessionView_MouseEnter;
+				_prevSelectedSessionView.MouseLeave += sessionView_MouseLeave;
+			}
+			_selectedSession = (view.DataContext as SessionViewModel).GetSession();
+			InitNotes();
+		}
+		void sessionView_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			var view = sender as SessionView;
+			view.Rectangle.Fill = new SolidColorBrush(Colors.DarkSlateGray);
+		}
+		void sessionView_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			var view = sender as SessionView;
+			view.Rectangle.Fill = new SolidColorBrush(Color.FromRgb(0x4f, 0x6f, 0x6f));
+		}
+
+		#endregion
 		public FullCardViewModel(Card card)
 		{
 			_card = card;

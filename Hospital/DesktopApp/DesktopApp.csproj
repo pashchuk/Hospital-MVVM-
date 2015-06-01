@@ -50,6 +50,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -185,6 +186,10 @@
     <Resource Include="resources\images\note_delete.png" />
     <Resource Include="resources\images\note_edit.png" />
     <Resource Include="resources\images\trash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\images\cancel.png" />
+    <Resource Include="resources\images\save.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

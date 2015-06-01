@@ -11,6 +11,7 @@ namespace DesktopApp.ViewModel
 	{
 		private Session _session;
 		private bool _state;
+		private string _diagnosisCopy;
 
 		public int Id { get; private set; }
 
@@ -42,6 +43,23 @@ namespace DesktopApp.ViewModel
 		public Session GetSession()
 		{
 			return _session;
+		}
+
+		public void ChangeStateToModify()
+		{
+			State = true;
+			_diagnosisCopy = Diagnosis;
+		}
+
+		public void Cancel()
+		{
+			State = false;
+			Diagnosis = _diagnosisCopy;
+		}
+
+		public void SaveChanges()
+		{
+			State = false;
 		}
 
 		public SessionViewModel(Session session, int id)
