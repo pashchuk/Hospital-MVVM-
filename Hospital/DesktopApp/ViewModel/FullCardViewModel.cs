@@ -220,7 +220,9 @@ namespace DesktopApp.ViewModel
 		#region Note Commands
 		private bool ModifyNoteCanExecute()
 		{
-			return _selectedNote != null && _selectedNoteView != null;
+			return _selectedNote != null
+				&& _selectedNoteView != null
+				&& _changes == ChangesState.Synchronized;
 		}
 		private void ModifyNoteExecute()
 		{
@@ -238,7 +240,9 @@ namespace DesktopApp.ViewModel
 		}
 		private bool DeleteNoteCanExecute()
 		{
-			return _selectedNote != null && _selectedNoteView != null;
+			return _selectedNote != null
+				&& _selectedNoteView != null
+				&& _changes == ChangesState.Synchronized;
 		}
 		private void DeleteNoteExecute()
 		{
@@ -256,7 +260,9 @@ namespace DesktopApp.ViewModel
 		}
 		private bool AddNewNoteCanExecute()
 		{
-			return true;
+			return _selectedSession != null
+				&& _selectedSessionView!= null
+				&& _changes == ChangesState.Synchronized;
 		}
 		private void AddNewNoteExecute()
 		{
@@ -282,6 +288,8 @@ namespace DesktopApp.ViewModel
 				ConfigureAnimation(view);
 				colection.Add(view);
 			}
+			_selectedNoteView = null;
+			_selectedNote = null;
 			NoteViews = colection;
 		}
 
@@ -422,7 +430,7 @@ namespace DesktopApp.ViewModel
 					ResetChanges();
 					break;
 				case ChangesState.NoteCreated:
-					(_selectedNoteView.DataContext as NoteViewModel).SaveChanges();
+					(_modifiedNoteView.DataContext as NoteViewModel).SaveChanges();
 					ResetChanges();
 					break;
 				case ChangesState.NoteChanged:
@@ -451,7 +459,9 @@ namespace DesktopApp.ViewModel
 		#region Animation
 		private void ConfigureAnimation(NoteView view)
 		{
-
+			view.MouseEnter += noteView_MouseEnter;
+			view.MouseLeave += noteView_MouseLeave;
+			view.MouseLeftButtonDown += noteView_MouseLeftButtonDown;
 		}
 		private void ConfigureAnimation(SessionView view)
 		{
@@ -485,6 +495,33 @@ namespace DesktopApp.ViewModel
 		void sessionView_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
 		{
 			var view = sender as SessionView;
+			view.Rectangle.Fill = new SolidColorBrush(Color.FromRgb(0x4f, 0x6f, 0x6f));
+		}
+
+		void noteView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			var view = sender as NoteView;
+			_prevSelectedNoteView = _selectedNoteView;
+			_selectedNoteView = view;
+			view.Rectangle.Fill = new SolidColorBrush(Color.FromRgb(0x7f, 0x9f, 0x9f));
+			view.MouseLeave -= noteView_MouseLeave;
+			view.MouseEnter -= noteView_MouseEnter;
+			if (_prevSelectedNoteView != null && !ReferenceEquals(_prevSelectedNoteView, _selectedNoteView))
+			{
+				_prevSelectedNoteView.Rectangle.Fill = new SolidColorBrush(Colors.DarkSlateGray);
+				_prevSelectedNoteView.MouseEnter += noteView_MouseEnter;
+				_prevSelectedNoteView.MouseLeave += noteView_MouseLeave;
+			}
+			_selectedNote = (view.DataContext as NoteViewModel).GetNote();
+		}
+		void noteView_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			var view = sender as NoteView;
+			view.Rectangle.Fill = new SolidColorBrush(Colors.DarkSlateGray);
+		}
+		void noteView_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			var view = sender as NoteView;
 			view.Rectangle.Fill = new SolidColorBrush(Color.FromRgb(0x4f, 0x6f, 0x6f));
 		}
 
