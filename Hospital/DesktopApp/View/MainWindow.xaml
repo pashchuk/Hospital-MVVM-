@@ -1,0 +1,99 @@
+﻿<Window x:Class="DesktopApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="450" Width="600">
+    <Window.Resources>
+        <ResourceDictionary Source="../Styles/LoginWindowResources.xaml"/>
+    </Window.Resources>
+    <Grid Background="{StaticResource BackgroundBrush}">
+        <Grid Visibility="Collapsed" x:Name="LoginGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Login" Style="{StaticResource TextBlockStyle}" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,15"/>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Style="{StaticResource TextBlockStyle}" Text="Username"/>
+                <TextBox Style="{StaticResource LoginBoxStyle}" Width="200" Height="30" VerticalContentAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Style="{StaticResource TextBlockStyle}" Text="Password" Margin="15,0"/>
+                <PasswordBox Style="{StaticResource PasswordBoxStyle}" Width="200" Height="30" VerticalContentAlignment="Center"/>
+            </StackPanel>
+            <Button Grid.Row="3" Style="{StaticResource SignInButtonStyle}"  Content="Sign In" Width="330" VerticalAlignment="Top" Margin="0,15"/>
+            <TextBlock Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TextBlockStyle}" FontSize="16" FontWeight="Normal">
+                <Hyperlink Style="{StaticResource LinkStyle}">Register new user</Hyperlink>
+            </TextBlock>
+        </Grid>
+        <Grid x:Name="RegisterGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Style="{StaticResource TextBlockStyle}" Text="Register" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="48"/>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Login"/>
+                <TextBox x:Name="TextBox" Grid.Row="0" Grid.Column="1" Style="{StaticResource RegisterDataBox}"/>
+                <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="E-mail"/>
+                <TextBox Grid.Row="0" Grid.Column="3" Style="{StaticResource RegisterDataBox}"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Password"/>
+                <PasswordBox Grid.Row="1" Grid.Column="1" Style="{StaticResource PasswordBoxStyle}" 
+                             Width="{Binding ElementName=TextBox,Path=Width}" 
+                             Height="{Binding ElementName=TextBox,Path=Height}" 
+                             Margin="{Binding ElementName=TextBox,Path=Margin}"/>
+                <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="Confirm"/>
+                <PasswordBox Grid.Row="1" Grid.Column="3" Style="{StaticResource PasswordBoxStyle}" 
+                             Width="{Binding ElementName=TextBox,Path=Width}" 
+                             Height="{Binding ElementName=TextBox,Path=Height}" 
+                             Margin="{Binding ElementName=TextBox,Path=Margin}"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="First Name"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource RegisterDataBox}"/>
+                <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="Last Name"/>
+                <TextBox Grid.Row="2" Grid.Column="3" Style="{StaticResource RegisterDataBox}"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="MiddleName"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource RegisterDataBox}"/>
+                <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource RegisterTextBlock}" Text="Age"/>
+                    <TextBox Style="{StaticResource RegisterDataBox}" HorizontalContentAlignment="Center" MaxLength="2" Width="40"/>
+                </StackPanel>
+                <StackPanel Grid.Row="3" Grid.Column="3" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource RegisterTextBlock}" Text="Sex"/>
+                    <ComboBox Width="80" Height="30" Style="{StaticResource {x:Type ComboBox}}">
+                        <ComboBox.Items>
+                            <ComboBoxItem Content="Чоловік"/>
+                            <ComboBoxItem Content="Жінка"/>
+                        </ComboBox.Items>
+                    </ComboBox>
+                </StackPanel>
+                <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Address"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Width="410" Style="{StaticResource RegisterDataBox}"/>
+                <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Office"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource RegisterDataBox}"/>
+                <TextBlock Grid.Row="5" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="Phone"/>
+                <TextBox Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" Style="{StaticResource RegisterDataBox}"/>
+            </Grid>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
+                <Button Width="200" Style="{StaticResource SignInButtonStyle}" Content="Register" Margin="10"/>
+                <Button Width="200" Style="{StaticResource SignInButtonStyle}" Content="Cancel" Margin="10"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

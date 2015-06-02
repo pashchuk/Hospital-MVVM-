@@ -24,9 +24,6 @@ namespace DesktopApp.View
 		public WorkWindow()
 		{
 //			GenerateTestDataBaseData();
-			var user = HospitalContext.GetContext().Doctors.First();
-			if (user != null)
-				this.DataContext = WorkWindowViewModel.Login(user);
 			InitializeComponent();
 		}
 
