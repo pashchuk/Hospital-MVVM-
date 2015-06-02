@@ -58,8 +58,8 @@ namespace DesktopApp.ViewModel
 		
 		private FullCardViewModel _fullCardViewModel;
 
-		private Card _selectedCard;
-		private CardView _selectedCardView, _prevSelectedCardView;
+		private Card _selectedCard, _modifiedCard;
+		private CardView _selectedCardView, _prevSelectedCardView, _modifiedCardCiew;
 
 		private User _loginedUser;
 
@@ -118,11 +118,11 @@ namespace DesktopApp.ViewModel
 
 		private bool SaveChangesCanExecute()
 		{
-			throw new NotImplementedException();
+			return true;
 		}
 		private void SaveChangesExecute()
 		{
-			throw new NotImplementedException();
+			(_selectedCardView.DataContext as CardViewModel).UpdateValues();
 		}
 
 		#region Card Commands
@@ -152,14 +152,18 @@ namespace DesktopApp.ViewModel
 		}
 		private void AddNewCardExecute()
 		{
-			var card = db.GetContext().Cards.Add(new Card());
+			var card = new Card()
+			{
+				OwnerDoctor = LoginedUser as Doctor, 
+				Name = "test", 
+				Patient = new Patient()
+			};
 			var cardView = new CardView() { DataContext = new CardViewModel(card) };
 			ConfigureAnimation(cardView);
-			db.GetContext().SaveChangesAsync();
 			_selectedCard = card;
-			_selectedCard.OwnerDoctor = _loginedUser as Doctor;
 			_selectedCardView = cardView;
-			OpenFullCardCommand.Execute(null);
+			CardsViews.Add(cardView);
+			OpenFullCardExecute(true);
 		}
 		private bool OpenFullCardCanExecute()
 		{
@@ -168,6 +172,10 @@ namespace DesktopApp.ViewModel
 		private void OpenFullCardExecute()
 		{
 			FullCardViewModel = new FullCardViewModel(_selectedCard);
+		}
+		private void OpenFullCardExecute(bool status)
+		{
+			FullCardViewModel = new FullCardViewModel(_selectedCard, status);
 		}
 
 		#endregion
@@ -185,15 +193,18 @@ namespace DesktopApp.ViewModel
 
 		void InitCards()
 		{
-			CardsViews = new ObservableCollection<CardView>();
-			var dbs = db.GetContext();
-			foreach (var card in dbs.Cards)
+			var colection = new ObservableCollection<CardView>();
+			var cards = (from item in HospitalContext.GetContext().Cards
+				orderby item.CreationDate descending
+				select item).Take(10);
+			if (cards.Count() > 0) _selectedCard = cards.First();
+			foreach (var card in cards)
 			{
-				var view = new CardView() { DataContext = new CardViewModel(card) };
+				var view = new CardView() {DataContext = new CardViewModel(card)};
 				ConfigureAnimation(view);
-				CardsViews.Add(view);
+				colection.Add(view);
 			}
-			_selectedCard = dbs.Cards.Local[0];
+			CardsViews= colection;
 			OpenFullCardCommand.Execute(null);
 		}
 

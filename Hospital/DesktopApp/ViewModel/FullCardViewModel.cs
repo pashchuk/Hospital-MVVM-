@@ -21,12 +21,12 @@ namespace DesktopApp.ViewModel
 	{
 		internal enum ChangesState
 		{
+			CardCreated,
+			CardChanged,
 			Synchronized,
 			NoteChanged,
-			CardChanged,
 			SessionChanged,
 			NoteCreated,
-			CardCreated,
 			SessionCreated
 		};
 		private Card _card;
@@ -251,7 +251,7 @@ namespace DesktopApp.ViewModel
 			if (NoteViews.Count != 0)
 			{
 				_selectedNoteView = NoteViews[0];
-				_selectedNote = (_selectedSessionView.DataContext as NoteViewModel).GetNote();
+				_selectedNote = (_selectedNoteView.DataContext as NoteViewModel).GetNote();
 			}
 			HospitalContext.GetContext().SaveChangesAsync();
 		}
@@ -279,8 +279,8 @@ namespace DesktopApp.ViewModel
 			if (_prevSelectedNoteView != null && !ReferenceEquals(_prevSelectedNoteView, _selectedNoteView))
 			{
 				_prevSelectedNoteView.Rectangle.Fill = new SolidColorBrush(Colors.DarkSlateGray);
-				_prevSelectedNoteView.MouseEnter += sessionView_MouseEnter;
-				_prevSelectedNoteView.MouseLeave += sessionView_MouseLeave;
+				_prevSelectedNoteView.MouseEnter += noteView_MouseEnter;
+				_prevSelectedNoteView.MouseLeave += noteView_MouseLeave;
 			}
 			(view.DataContext as NoteViewModel).ChangeStateToModify();
 			NoteViews.Insert(0, view);
@@ -289,6 +289,7 @@ namespace DesktopApp.ViewModel
 
 		void InitNotes()
 		{
+			if (_selectedSession == null) return;
 			var colection = new ObservableCollection<NoteView>();
 			var notes = (from item in _selectedSession.Notes
 						 orderby item.Date descending 
@@ -415,12 +416,16 @@ namespace DesktopApp.ViewModel
 					ResetChanges();
 					break;
 				case ChangesState.CardCreated:
+					HospitalContext.GetContext().Cards.Add(_card);
+					WorkWindowViewModel.GetViewModel().SaveChangesCommand.Execute(null);
+					State = false;
 					ResetChanges();
 					break;
 				case ChangesState.CardChanged:
+					WorkWindowViewModel.GetViewModel().SaveChangesCommand.Execute(null);
 					State = false;
 					ResetChanges();
-					break;	
+					break;
 			}
 			HospitalContext.GetContext().SaveChangesAsync();
 		}
@@ -452,9 +457,7 @@ namespace DesktopApp.ViewModel
 					ResetChanges();
 					break;
 				case ChangesState.CardCreated:
-					ResetChanges();
-					break;
-				case ChangesState.CardChanged:
+//					WorkWindowViewModel.GetViewModel().
 					State = false;
 					ResetChanges();
 					break;
@@ -541,8 +544,10 @@ namespace DesktopApp.ViewModel
 		}
 
 		#endregion
-		public FullCardViewModel(Card card)
+		public FullCardViewModel(Card card, bool created = false)
 		{
+			_changes = created ? ChangesState.CardCreated : ChangesState.Synchronized;
+			State = created;
 			_card = card;
 			_dataVisibility = Visibility.Visible;
 			InitCommands();

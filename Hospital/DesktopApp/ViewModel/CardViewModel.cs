@@ -18,7 +18,11 @@ namespace DesktopApp.ViewModel
 			get { return string.Format("{0} {1}", _card.Patient.FirstName, _card.Patient.LastName); }
 			set
 			{
-				_card.Patient.FirstName = value;
+				var item = value.Split(' ');
+				if (item.Length > 0)
+					_card.Patient.FirstName = item[0];
+				else
+					_card.Patient.FirstName = value;
 				OnPropertyChanged("Name");
 			}
 		}
@@ -49,6 +53,13 @@ namespace DesktopApp.ViewModel
 		public Card GetCard()
 		{
 			return _card;
+		}
+
+		public void UpdateValues()
+		{
+			Name = string.Format("{0} {1}", _card.Patient.FirstName, _card.Patient.LastName);
+			Age = _card.Patient.Age;
+			Sex = _card.Patient.Sex;
 		}
 
 	}
