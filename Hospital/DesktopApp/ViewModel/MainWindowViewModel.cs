@@ -13,7 +13,9 @@ namespace DesktopApp.ViewModel
 {
 	public class MainWindowViewModel : ViewModelBase
 	{
-		private string _username, _password;
+		private string _username, _password,
+			_regPwd, _confPwd;
+		private Doctor _doc;
 
 		public string UserName
 		{
@@ -33,6 +35,122 @@ namespace DesktopApp.ViewModel
 				_password = value;
 				OnPropertyChanged("Password");
 			}
+		}
+
+		#region Register Property
+
+		public string Login
+		{
+			get { return _doc.Login; }
+			set
+			{
+				_doc.Login = value;
+				OnPropertyChanged("Login");
+			}
+		}
+		public string Email
+		{
+			get { return _doc.Email; }
+			set
+			{
+				_doc.Email = value;
+				OnPropertyChanged("Email");
+			}
+		}
+		public string RegPassword
+		{
+			get { return _regPwd; }
+			set
+			{
+				_regPwd = value;
+				OnPropertyChanged("RegPassword");
+			}
+		}
+		public string ConfirmPassword
+		{
+			get { return _confPwd; }
+			set
+			{
+				_confPwd = value;
+				OnPropertyChanged("ConfirmPassword");
+				if (string.Equals(_regPwd, _confPwd))
+					_doc.Password = value;
+			}
+		}
+		public string FirstName
+		{
+			get { return _doc.FirstName; }
+			set
+			{
+				_doc.FirstName = value;
+				OnPropertyChanged("FirstName");
+			}
+		}
+		public string LastName
+		{
+			get { return _doc.LastName; }
+			set
+			{
+				_doc.LastName = value;
+				OnPropertyChanged("LastName");
+			}
+		}
+		public string MiddleName
+		{
+			get { return _doc.MiddleName; }
+			set
+			{
+				_doc.MiddleName = value;
+				OnPropertyChanged("MiddleName");
+			}
+		}
+		public int Age
+		{
+			get { return _doc.Age; }
+			set { _doc.Age = value; }
+		}
+		public string Sex
+		{
+			get { return _doc.Sex; }
+			set
+			{
+				_doc.Sex = value;
+				OnPropertyChanged("Sex");
+			}
+		}
+		public string Address
+		{
+			get { return _doc.Address; }
+			set
+			{
+				_doc.Address = value;
+				OnPropertyChanged("Address");
+			}
+		}
+		public string Office
+		{
+			get { return _doc.Office; }
+			set
+			{
+				_doc.Office = value;
+				OnPropertyChanged("Office");
+			}
+		}
+		public string Phone
+		{
+			get { return _doc.Phone; }
+			set
+			{
+				_doc.Phone = value;
+				OnPropertyChanged("Phone");
+			}
+		}
+
+		#endregion
+
+		bool CheckPwds()
+		{
+			return string.Equals(_regPwd, _confPwd);
 		}
 
 		public RelayCommand LogInCommand { get; private set; }

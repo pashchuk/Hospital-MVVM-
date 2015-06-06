@@ -68,11 +68,11 @@
                 <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource RegisterDataBox}"/>
                 <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="Last Name"/>
                 <TextBox Grid.Row="2" Grid.Column="3" Style="{StaticResource RegisterDataBox}"/>
-                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="MiddleName"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Middle Name"/>
                 <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource RegisterDataBox}"/>
                 <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal">
                     <TextBlock Style="{StaticResource RegisterTextBlock}" Text="Age"/>
-                    <TextBox Style="{StaticResource RegisterDataBox}" HorizontalContentAlignment="Center" MaxLength="2" Width="40"/>
+                    <TextBox Style="{StaticResource RegisterDataBox}" HorizontalContentAlignment="Center" MaxLength="2" Width="40" />
                 </StackPanel>
                 <StackPanel Grid.Row="3" Grid.Column="3" Orientation="Horizontal">
                     <TextBlock Style="{StaticResource RegisterTextBlock}" Text="Sex"/>
@@ -91,8 +91,8 @@
                 <TextBox Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" Style="{StaticResource RegisterDataBox}"/>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
-                <Button Width="200" Style="{StaticResource SignInButtonStyle}" Content="Register" Margin="10"/>
-                <Button Width="200" Style="{StaticResource SignInButtonStyle}" Content="Cancel" Margin="10"/>
+                <Button Width="200" Command="{Binding RegisterCommand}" Style="{StaticResource SignInButtonStyle}" Content="Register" Margin="10"/>
+                <Button Width="200" Command="{Binding CancelCommand}" Style="{StaticResource SignInButtonStyle}" Content="Cancel" Margin="10"/>
             </StackPanel>
         </Grid>
     </Grid>
