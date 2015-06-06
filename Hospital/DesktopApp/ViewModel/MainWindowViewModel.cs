@@ -3,19 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using DesktopApp.Commands;
 using DesktopApp.Model;
 using DesktopApp.View;
+using DevOne.Security.Cryptography.BCrypt;
 using Application = System.Windows.Application;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace DesktopApp.ViewModel
 {
 	public class MainWindowViewModel : ViewModelBase
 	{
-		private string _username, _password,
-			_regPwd, _confPwd;
+		private string _username;
 		private Doctor _doc;
+		private Visibility _loginVisibility, _registerVisibility;
 
 		public string UserName
 		{
@@ -24,16 +28,6 @@ namespace DesktopApp.ViewModel
 			{
 				_username = value;
 				OnPropertyChanged("UserName");
-			}
-		}
-
-		public string Password
-		{
-			get { return _password; }
-			set
-			{
-				_password = value;
-				OnPropertyChanged("Password");
 			}
 		}
 
@@ -55,26 +49,6 @@ namespace DesktopApp.ViewModel
 			{
 				_doc.Email = value;
 				OnPropertyChanged("Email");
-			}
-		}
-		public string RegPassword
-		{
-			get { return _regPwd; }
-			set
-			{
-				_regPwd = value;
-				OnPropertyChanged("RegPassword");
-			}
-		}
-		public string ConfirmPassword
-		{
-			get { return _confPwd; }
-			set
-			{
-				_confPwd = value;
-				OnPropertyChanged("ConfirmPassword");
-				if (string.Equals(_regPwd, _confPwd))
-					_doc.Password = value;
 			}
 		}
 		public string FirstName
@@ -148,41 +122,65 @@ namespace DesktopApp.ViewModel
 
 		#endregion
 
-		bool CheckPwds()
+		public Visibility LoginVisibility
 		{
-			return string.Equals(_regPwd, _confPwd);
+			get { return _loginVisibility; }
+			set
+			{
+				_loginVisibility = value;
+				OnPropertyChanged("LoginVisibility");
+			}
+		}
+		public Visibility RegisterVisibility
+		{
+			get { return _registerVisibility; }
+			set
+			{
+				_registerVisibility = value;
+				OnPropertyChanged("RegisterVisibility");
+			}
 		}
 
 		public RelayCommand LogInCommand { get; private set; }
+		public RelayCommand RegisterNewClickCommand { get; private set; }
 		public RelayCommand RegisterCommand { get; private set; }
 		public RelayCommand CancelCommand { get; private set; }
 
 		public MainWindowViewModel()
 		{
 			LogInCommand = new RelayCommand(LoginExecute, LoginCanExecute);
+			RegisterNewClickCommand = new RelayCommand(RegisterNewClickExecute);
+			RegisterCommand = new RelayCommand(RegisterExecute, RegisterCanExecute);
+			CancelCommand = new RelayCommand(CancelExecute);
 			_username = string.Empty;
-			_password = string.Empty;
+			_doc = new Doctor();
+			LoginVisibility = Visibility.Visible;
+			RegisterVisibility = Visibility.Collapsed;
 		}
 
 		private bool LoginCanExecute()
 		{
-			return !string.IsNullOrWhiteSpace(UserName)
-			       && !string.IsNullOrWhiteSpace(Password);
+			return !string.IsNullOrWhiteSpace(UserName);
 		}
-
-		private async void LoginExecute()
+		private async void LoginExecute(object passwordBox)
 		{
+			var box = passwordBox as PasswordBox;
 			try
 			{
 				var db = HospitalContext.GetContext();
 				var user = await Task.Run(() =>
-					(from a in db.Doctors
+				{
+					var col = from a in db.Doctors
 						where a.Login == UserName
-						      && a.Password == Password
-						select a).First());
+						      && a.Password == box.Password
+						select a;
+					return col.Count() != 0 ? col.First() : null;
+				});
 				if (user == null)
 				{
 					MessageBox.Show("Incorrect username or password", "Login failed", MessageBoxButtons.OK);
+					box.Password = string.Empty;
+					UserName = string.Empty;
 					return;
 				}
 				var newWindow = new WorkWindow();
@@ -194,6 +192,68 @@ namespace DesktopApp.ViewModel
 			{
 				MessageBox.Show(ex.Message);
 			}
+		}
+		private void RegisterNewClickExecute()
+		{
+			LoginVisibility = Visibility.Collapsed;
+			RegisterVisibility = Visibility.Visible;
+		}
+		private bool RegisterCanExecute()
+		{
+			return true;
+		}
+		private void RegisterExecute(object values)
+		{
+			var val = (object[]) values;
+			var pwd = val[0] as PasswordBox;
+			var confPwd = val[1] as PasswordBox;
+			if (!string.Equals(confPwd.Password, pwd.Password))
+			{
+				MessageBox.Show("Password is not equals", "Validation",
+					MessageBoxButtons.OK, MessageBoxIcon.Information);
+				pwd.Password = string.Empty;
+				confPwd.Password = string.Empty;
+				return;
+			}
+			if (!ValidateRegisterData()) return;
+			_doc.Password = pwd.Password;
+			try
+			{
+				HospitalContext.GetContext().Doctors.Add(_doc);
+				HospitalContext.GetContext().SaveChanges();
+				MessageBox.Show("User register succesfuly");
+				CancelCommand.Execute(null);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
+		}
+		private void CancelExecute()
+		{
+			LoginVisibility = Visibility.Visible;
+			RegisterVisibility = Visibility.Collapsed;
+			FflushForm();
+		}
+
+		private bool ValidateRegisterData()
+		{
+			return true;
+		}
+
+		private void FflushForm()
+		{
+			Login = string.Empty;
+			Email = string.Empty;
+			FirstName = string.Empty;
+			LastName = string.Empty;
+			MiddleName = string.Empty;
+			Age = 0;
+			Sex = string.Empty;
+			Address = string.Empty;
+			Office = string.Empty;
+			Phone = string.Empty;
 		}
 	}
 }

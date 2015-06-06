@@ -1,13 +1,14 @@
 ﻿<Window x:Class="DesktopApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:basic="clr-namespace:System;assembly=mscorlib"
         xmlns:converters="clr-namespace:DesktopApp.Converters"
         Title="MainWindow" Height="450" Width="600">
     <Window.Resources>
         <ResourceDictionary Source="../Styles/LoginWindowResources.xaml"/>
     </Window.Resources>
     <Grid Background="{StaticResource BackgroundBrush}">
-        <Grid Visibility="Collapsed" x:Name="LoginGrid">
+        <Grid Visibility="{Binding LoginVisibility}" x:Name="LoginGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
@@ -18,18 +19,18 @@
             <TextBlock Grid.Row="0" Text="Login" Style="{StaticResource TextBlockStyle}" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,15"/>
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Style="{StaticResource TextBlockStyle}" Text="Username"/>
-                <TextBox Style="{StaticResource LoginBoxStyle}" Width="200" Height="30" VerticalContentAlignment="Center"/>
+                <TextBox Style="{StaticResource LoginBoxStyle}" Width="200" Height="30" Text="{Binding UserName}"/>
             </StackPanel>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Style="{StaticResource TextBlockStyle}" Text="Password" Margin="15,0"/>
-                <PasswordBox Style="{StaticResource PasswordBoxStyle}" Width="200" Height="30" VerticalContentAlignment="Center"/>
+                <PasswordBox x:Name="Pwd" Style="{StaticResource PasswordBoxStyle}" Width="200" Height="30" VerticalContentAlignment="Center"/>
             </StackPanel>
-            <Button Grid.Row="3" Style="{StaticResource SignInButtonStyle}"  Content="Sign In" Width="330" VerticalAlignment="Top" Margin="0,15"/>
+            <Button Grid.Row="3" Command="{Binding LogInCommand}" CommandParameter="{Binding ElementName=Pwd}" Style="{StaticResource SignInButtonStyle}"  Content="Sign In" Width="330" VerticalAlignment="Top" Margin="0,15"/>
             <TextBlock Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TextBlockStyle}" FontSize="16" FontWeight="Normal">
-                <Hyperlink Style="{StaticResource LinkStyle}">Register new user</Hyperlink>
+                <Hyperlink Command="{Binding RegisterNewClickCommand}" Style="{StaticResource LinkStyle}">Register new user</Hyperlink>
             </TextBlock>
         </Grid>
-        <Grid x:Name="RegisterGrid">
+        <Grid Visibility="{Binding RegisterVisibility}" x:Name="RegisterGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="3*"/>
@@ -77,10 +78,10 @@
                 </StackPanel>
                 <StackPanel Grid.Row="3" Grid.Column="3" Orientation="Horizontal">
                     <TextBlock Style="{StaticResource RegisterTextBlock}" Text="Sex"/>
-                    <ComboBox Width="80" Height="30" Style="{StaticResource {x:Type ComboBox}}" SelectedValue="{Binding Sex}">
+                    <ComboBox Width="80" Height="30" Style="{StaticResource {x:Type ComboBox}}" SelectedItem="{Binding Sex}">
                         <ComboBox.Items>
-                            <ComboBoxItem Content="Чоловік"/>
-                            <ComboBoxItem Content="Жінка"/>
+                            <basic:String>Чоловік</basic:String>
+                            <basic:String>Жінка</basic:String>
                         </ComboBox.Items>
                     </ComboBox>
                 </StackPanel>
