@@ -8,6 +8,7 @@ using System.Security.Policy;
 using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -15,6 +16,7 @@ using DesktopApp.Commands;
 using DesktopApp.Model;
 using DesktopApp.View;
 using db = DesktopApp.Model.HospitalContext;
+using MessageBox = System.Windows.Forms.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace DesktopApp.ViewModel
@@ -62,6 +64,7 @@ namespace DesktopApp.ViewModel
 		private CardView _selectedCardView, _prevSelectedCardView, _modifiedCardCiew;
 
 		private User _loginedUser;
+		private Visibility _firstCardButtonVisibility;
 
 		#endregion
 
@@ -70,6 +73,15 @@ namespace DesktopApp.ViewModel
 		public string UserType
 		{
 			get { return (_loginedUser is Doctor) ? "Doctor" : "Patient"; }
+		}
+		public Visibility FirstCardButtonVisibility
+		{
+			get { return _firstCardButtonVisibility; }
+			set
+			{
+				_firstCardButtonVisibility = value;
+				OnPropertyChanged("FirstCardButtonVisibility");
+			}
 		}
 		public User LoginedUser { get { return _loginedUser; } }
 		public string UserName
@@ -198,7 +210,12 @@ namespace DesktopApp.ViewModel
 			var cards = (from item in HospitalContext.GetContext().Cards
 				orderby item.CreationDate descending
 				select item).Take(10);
-			if (cards.Count() > 0) _selectedCard = cards.First();
+			if (!cards.Any()) FirstCardButtonVisibility = Visibility.Visible;
+			else
+			{
+				FirstCardButtonVisibility = Visibility.Collapsed;
+				_selectedCard = cards.First();
+			}
 			foreach (var card in cards)
 			{
 				var view = new CardView() {DataContext = new CardViewModel(card)};
