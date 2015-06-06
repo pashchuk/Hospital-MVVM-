@@ -16,6 +16,11 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+            <Button Visibility="{Binding FirstCardButtonVisibility}" Style="{StaticResource OvalButtonStyle}" Command="{Binding AddNewCardCommand}" Width="30" Height="30" Padding="4" ToolTip="Create new first card">
+                <Button.Content>
+                    <Image Source="../resources/images/card_add.png"/>
+                </Button.Content>
+            </Button>
             <TextBlock Text="User: " Style="{StaticResource InfoAskTextBlock}"/>
             <TextBlock Text="{Binding UserName}" Style="{StaticResource InfoTextBlock}"/>
         </StackPanel>
