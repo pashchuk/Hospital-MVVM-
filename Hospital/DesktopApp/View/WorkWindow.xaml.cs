@@ -25,6 +25,7 @@ namespace DesktopApp.View
 		{
 //			GenerateTestDataBaseData();
 			InitializeComponent();
+			this.Closed += (sender, args) => Application.Current.Shutdown();
 		}
 
 		private void GenerateTestDataBaseData()
