@@ -36,6 +36,7 @@ namespace DesktopApp.ViewModel
 		public static WorkWindowViewModel Login(User loginUser)
 		{
 			_viewmodel = new WorkWindowViewModel(loginUser);
+			_viewmodel.InitAll();
 			return _viewmodel;
 		}
 
@@ -49,7 +50,6 @@ namespace DesktopApp.ViewModel
 				_loginedUser = loginUser;
 			db.GetContext().LoadAll();
 
-			InitAll();
 		}
 
 		#region Private Fields
@@ -171,6 +171,7 @@ namespace DesktopApp.ViewModel
 		}
 		private void OpenFullCardExecute()
 		{
+			if (_selectedCard == null) return;
 			FullCardViewModel = new FullCardViewModel(_selectedCard);
 		}
 		private void OpenFullCardExecute(bool status)

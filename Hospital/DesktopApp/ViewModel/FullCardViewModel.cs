@@ -370,6 +370,7 @@ namespace DesktopApp.ViewModel
 
 		void InitSession()
 		{
+			if (_card == null) return;
 			var colection = new ObservableCollection<SessionView>();
 			var sessions = (from item in _card.Sesions
 						 orderby item.Date descending
