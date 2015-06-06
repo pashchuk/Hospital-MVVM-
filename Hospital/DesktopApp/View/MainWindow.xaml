@@ -66,18 +66,18 @@
                              Height="{Binding ElementName=TextBox,Path=Height}" 
                              Margin="{Binding ElementName=TextBox,Path=Margin}"/>
                 <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="First Name"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource RegisterDataBox}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource RegisterDataBox}" Text="{Binding FirstName}"/>
                 <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="Last Name"/>
-                <TextBox Grid.Row="2" Grid.Column="3" Style="{StaticResource RegisterDataBox}"/>
+                <TextBox Grid.Row="2" Grid.Column="3" Style="{StaticResource RegisterDataBox}" Text="{Binding LastName}"/>
                 <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Middle Name"/>
-                <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource RegisterDataBox}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource RegisterDataBox}" Text="{Binding MiddleName}"/>
                 <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal">
                     <TextBlock Style="{StaticResource RegisterTextBlock}" Text="Age"/>
-                    <TextBox Style="{StaticResource RegisterDataBox}" HorizontalContentAlignment="Center" MaxLength="2" Width="40" />
+                    <TextBox Style="{StaticResource RegisterDataBox}" HorizontalContentAlignment="Center" MaxLength="2" Width="40" Text="{Binding Age}"/>
                 </StackPanel>
                 <StackPanel Grid.Row="3" Grid.Column="3" Orientation="Horizontal">
                     <TextBlock Style="{StaticResource RegisterTextBlock}" Text="Sex"/>
-                    <ComboBox Width="80" Height="30" Style="{StaticResource {x:Type ComboBox}}">
+                    <ComboBox Width="80" Height="30" Style="{StaticResource {x:Type ComboBox}}" SelectedValue="{Binding Sex}">
                         <ComboBox.Items>
                             <ComboBoxItem Content="Чоловік"/>
                             <ComboBoxItem Content="Жінка"/>
@@ -85,11 +85,11 @@
                     </ComboBox>
                 </StackPanel>
                 <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Address"/>
-                <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Width="410" Style="{StaticResource RegisterDataBox}"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Width="410" Style="{StaticResource RegisterDataBox}" Text="{Binding Address}"/>
                 <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Office"/>
-                <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource RegisterDataBox}"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource RegisterDataBox}" Text="{Binding Office}"/>
                 <TextBlock Grid.Row="5" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="Phone"/>
-                <TextBox Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" Style="{StaticResource RegisterDataBox}"/>
+                <TextBox Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" Style="{StaticResource RegisterDataBox}" Text="{Binding Phone}"/>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
                 <Button Width="200" Command="{Binding RegisterCommand}" Style="{StaticResource SignInButtonStyle}" Content="Register" Margin="10">
