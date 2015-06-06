@@ -1,6 +1,7 @@
 ﻿<Window x:Class="DesktopApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:DesktopApp.Converters"
         Title="MainWindow" Height="450" Width="600">
     <Window.Resources>
         <ResourceDictionary Source="../Styles/LoginWindowResources.xaml"/>
@@ -51,16 +52,16 @@
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Login"/>
-                <TextBox x:Name="TextBox" Grid.Row="0" Grid.Column="1" Style="{StaticResource RegisterDataBox}"/>
+                <TextBox x:Name="TextBox" Grid.Row="0" Grid.Column="1" Style="{StaticResource RegisterDataBox}" Text="{Binding Login}"/>
                 <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="E-mail"/>
-                <TextBox Grid.Row="0" Grid.Column="3" Style="{StaticResource RegisterDataBox}"/>
+                <TextBox Grid.Row="0" Grid.Column="3" Style="{StaticResource RegisterDataBox}" Text="{Binding Email}"/>
                 <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Password"/>
-                <PasswordBox Grid.Row="1" Grid.Column="1" Style="{StaticResource PasswordBoxStyle}" 
+                <PasswordBox x:Name="RegPwd" Grid.Row="1" Grid.Column="1" Style="{StaticResource PasswordBoxStyle}" 
                              Width="{Binding ElementName=TextBox,Path=Width}" 
                              Height="{Binding ElementName=TextBox,Path=Height}" 
                              Margin="{Binding ElementName=TextBox,Path=Margin}"/>
                 <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="Confirm"/>
-                <PasswordBox Grid.Row="1" Grid.Column="3" Style="{StaticResource PasswordBoxStyle}" 
+                <PasswordBox x:Name="ConfPwd" Grid.Row="1" Grid.Column="3" Style="{StaticResource PasswordBoxStyle}" 
                              Width="{Binding ElementName=TextBox,Path=Width}" 
                              Height="{Binding ElementName=TextBox,Path=Height}" 
                              Margin="{Binding ElementName=TextBox,Path=Margin}"/>
@@ -91,7 +92,14 @@
                 <TextBox Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" Style="{StaticResource RegisterDataBox}"/>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
-                <Button Width="200" Command="{Binding RegisterCommand}" Style="{StaticResource SignInButtonStyle}" Content="Register" Margin="10"/>
+                <Button Width="200" Command="{Binding RegisterCommand}" Style="{StaticResource SignInButtonStyle}" Content="Register" Margin="10">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{converters:PasswordConverter}">
+                        <Binding ElementName="RegPwd"/>
+                        <Binding ElementName="ConfPwd"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+                </Button>
                 <Button Width="200" Command="{Binding CancelCommand}" Style="{StaticResource SignInButtonStyle}" Content="Cancel" Margin="10"/>
             </StackPanel>
         </Grid>
