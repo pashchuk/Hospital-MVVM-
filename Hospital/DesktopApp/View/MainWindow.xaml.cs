@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DesktopApp.Model;
+using DesktopApp.ViewModel;
 
 namespace DesktopApp
 {
@@ -23,6 +24,7 @@ namespace DesktopApp
 	{
 		public MainWindow()
 		{
+			this.DataContext = new MainWindowViewModel();
 			InitializeComponent();
 		}
 	}
