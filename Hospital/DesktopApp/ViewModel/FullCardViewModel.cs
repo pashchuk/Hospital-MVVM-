@@ -226,6 +226,7 @@ namespace DesktopApp.ViewModel
 		{
 			return _selectedNote != null
 				&& _selectedNoteView != null
+				&& _selectedNote.Doctor.Equals(WorkWindowViewModel.GetViewModel().LoginedUser as Doctor)
 				&& _changes == ChangesState.Synchronized;
 		}
 		private void ModifyNoteExecute()
@@ -239,6 +240,7 @@ namespace DesktopApp.ViewModel
 		{
 			return _selectedNote != null
 				&& _selectedNoteView != null
+				&& _selectedNote.Doctor.Equals(WorkWindowViewModel.GetViewModel().LoginedUser as Doctor)
 				&& _changes == ChangesState.Synchronized;
 		}
 		private void DeleteNoteExecute()
