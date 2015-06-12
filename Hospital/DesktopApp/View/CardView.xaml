@@ -37,11 +37,11 @@
             <TextBlock Style="{StaticResource InfoTextBlock}" FontWeight="Normal" Text="{Binding Name}"/>
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" Margin="10,0">
-            <TextBlock Style="{StaticResource InfoAskTextBlock}" FontSize="10">Age:</TextBlock>
+            <TextBlock Style="{StaticResource InfoAskTextBlock}" FontSize="10">Вік:</TextBlock>
             <TextBlock Style="{StaticResource InfoTextBlock}" FontWeight="Normal" FontSize="10" Text="{Binding Age}"/>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" Margin="10,0">
-            <TextBlock Style="{StaticResource InfoAskTextBlock}" FontSize="10">Sex:</TextBlock>
+            <TextBlock Style="{StaticResource InfoAskTextBlock}" FontSize="10">Стать:</TextBlock>
             <TextBlock Style="{StaticResource InfoTextBlock}" FontWeight="Normal" FontSize="10" Text="{Binding Sex}"/>
         </StackPanel>
     </Grid>

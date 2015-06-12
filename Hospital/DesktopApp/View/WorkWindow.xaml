@@ -21,7 +21,7 @@
                     <Image Source="../resources/images/card_add.png"/>
                 </Button.Content>
             </Button>
-            <TextBlock Text="User: " Style="{StaticResource InfoAskTextBlock}"/>
+            <TextBlock Text="Користувач: " Style="{StaticResource InfoAskTextBlock}"/>
             <TextBlock Text="{Binding UserName}" Style="{StaticResource InfoTextBlock}"/>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -69,93 +69,93 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel x:Name="menuPanel" Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding SaveCommand}" Width="30" Height="30" Padding="4" ToolTip="Save changes">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding SaveCommand}" Width="30" Height="30" Padding="4" ToolTip="Зберегти зміни">
                             <Button.Content>
                                 <Image Source="../resources/images/save.png"/>
                             </Button.Content>
                         </Button>
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding CancelCommand}" Width="30" Height="30" Padding="4" ToolTip="Cancel">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding CancelCommand}" Width="30" Height="30" Padding="4" ToolTip="Відміна">
                             <Button.Content>
                                 <Image Source="../resources/images/cancel.png"/>
                             </Button.Content>
                         </Button>
                         <Line Margin="2,0" StrokeThickness="3" Stroke="AliceBlue" Y1="4" Y2="30" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifySessionCommand}" Width="30" Height="30" Padding="4" ToolTip="Modify session">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifySessionCommand}" Width="30" Height="30" Padding="4" ToolTip="Редагувати сессію">
                             <Button.Content>
                                 <Image Source="../resources/images/note_edit.png"/>
                             </Button.Content>
                         </Button>
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding AddNewSessionCommand}" Width="30" Height="30" Padding="4" ToolTip="Create new session">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding AddNewSessionCommand}" Width="30" Height="30" Padding="4" ToolTip="Створити сессію">
                             <Button.Content>
                                 <Image Source="../resources/images/note_add.png"/>
                             </Button.Content>
                         </Button>
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding DeleteSessionCommand}" Width="30" Height="30" Padding="4" ToolTip="Delete session">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding DeleteSessionCommand}" Width="30" Height="30" Padding="4" ToolTip="Видалити сессію">
                             <Button.Content>
                                 <Image Source="../resources/images/note_delete.png"/>
                             </Button.Content>
                         </Button>
                         <Line Margin="2,0" StrokeThickness="3" Stroke="AliceBlue" Y1="4" Y2="30" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifyNoteCommand}" Width="30" Height="30" Padding="4" ToolTip="Modify note">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifyNoteCommand}" Width="30" Height="30" Padding="4" ToolTip="Редагувати нотатку">
                             <Button.Content>
                                 <Image Source="../resources/images/note_edit.png"/>
                             </Button.Content>
                         </Button>
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding AddNewNoteCommand}" Width="30" Height="30" Padding="4" ToolTip="Create new note">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding AddNewNoteCommand}" Width="30" Height="30" Padding="4" ToolTip="Створити нову нотатку">
                             <Button.Content>
                                 <Image Source="../resources/images/note_add.png"/>
                             </Button.Content>
                         </Button>
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding DeleteNoteCommand}" Width="30" Height="30" Padding="4" ToolTip="Delete note">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding DeleteNoteCommand}" Width="30" Height="30" Padding="4" ToolTip="Видалити нотатку">
                             <Button.Content>
                                 <Image Source="../resources/images/note_delete.png"/>
                             </Button.Content>
                         </Button>
                         <Line Margin="2,0" StrokeThickness="3" Stroke="AliceBlue" Y1="4" Y2="30" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifyCardCommand}" Width="30" Height="30" Padding="4" ToolTip="Modify card">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding ModifyCardCommand}" Width="30" Height="30" Padding="4" ToolTip="Редагувати картку">
                             <Button.Content>
                                 <Image Source="../resources/images/card_edit.png"/>
                             </Button.Content>
                         </Button>
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding AddNewCardCommand}" Width="30" Height="30" Padding="4" ToolTip="Create new card">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding AddNewCardCommand}" Width="30" Height="30" Padding="4" ToolTip="Створити нову картку">
                             <Button.Content>
                                 <Image Source="../resources/images/card_add.png"/>
                             </Button.Content>
                         </Button>
-                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding DeleteCardCommand}" Width="30" Height="30" Padding="4" ToolTip="Delete card">
+                        <Button Style="{StaticResource OvalButtonStyle}" Command="{Binding DeleteCardCommand}" Width="30" Height="30" Padding="4" ToolTip="Видалити картку">
                             <Button.Content>
                                 <Image Source="../resources/images/card_delete.png"/>
                             </Button.Content>
                         </Button>
                     </StackPanel>
                     <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="5,0">
-                        <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Doctor: " HorizontalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Лікар: " HorizontalAlignment="Center"/>
                         <TextBlock Style="{StaticResource InfoTextBlock}" Text="{Binding DoctorName}" HorizontalAlignment="Center" Margin="4,0" FontWeight="Normal"/>
                     </WrapPanel>
                     <Border Grid.ColumnSpan="2" Grid.Row="1"  Style="{StaticResource MainBorderStyle}">
                         <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
                             <WrapPanel Margin="5,3">
-                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="First Name:" HorizontalAlignment="Center"/>
+                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Ім'я:" HorizontalAlignment="Center"/>
                                 <TextBox Style="{StaticResource InfoTextBox}" IsEnabled="{Binding State}" Text="{Binding FirstName}" HorizontalAlignment="Center" Margin="4,0"/>
                             </WrapPanel>
                             <WrapPanel Margin="5,3">
-                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Last Name:" HorizontalAlignment="Center"/>
+                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Прізвище:" HorizontalAlignment="Center"/>
                                 <TextBox Style="{StaticResource InfoTextBox}" IsEnabled="{Binding State}" Text="{Binding LastName}" HorizontalAlignment="Center" Margin="4,0"/>
                             </WrapPanel>
                             <WrapPanel Margin="5,3">
-                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Middle Name:" HorizontalAlignment="Center"/>
+                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="По-батькові:" HorizontalAlignment="Center"/>
                                 <TextBox Style="{StaticResource InfoTextBox}" IsEnabled="{Binding State}" Text="{Binding MiddleName}" HorizontalAlignment="Center" Margin="4,0"/>
                             </WrapPanel>
                             <WrapPanel Margin="5,3">
-                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Age:" HorizontalAlignment="Center"/>
+                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Вік:" HorizontalAlignment="Center"/>
                                 <TextBox Style="{StaticResource InfoTextBox}" IsEnabled="{Binding State}" Text="{Binding Age}" HorizontalAlignment="Center" Margin="4,0"/>
                             </WrapPanel>
                             <WrapPanel Margin="5,3">
-                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Sex:" HorizontalAlignment="Center"/>
+                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Стать:" HorizontalAlignment="Center"/>
                                 <TextBox Style="{StaticResource InfoTextBox}" IsEnabled="{Binding State}" Text="{Binding Sex}" HorizontalAlignment="Center" Margin="4,0"/>
                             </WrapPanel>
                             <WrapPanel Margin="5,3">
-                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Address:" HorizontalAlignment="Center"/>
+                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Адреса:" HorizontalAlignment="Center"/>
                                 <TextBox Style="{StaticResource InfoTextBox}" IsEnabled="{Binding State}" Text="{Binding Address}" HorizontalAlignment="Center" Margin="4,0"/>
                             </WrapPanel>
                             <WrapPanel Margin="5,3">
@@ -163,14 +163,14 @@
                                 <TextBox Style="{StaticResource InfoTextBox}" IsEnabled="{Binding State}" Text="{Binding Email}" HorizontalAlignment="Center" Margin="4,0"/>
                             </WrapPanel>
                             <WrapPanel Margin="5,3">
-                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Phone:" HorizontalAlignment="Center"/>
+                                <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Телефон:" HorizontalAlignment="Center"/>
                                 <TextBox Style="{StaticResource InfoTextBox}" IsEnabled="{Binding State}" Text="{Binding Phone}" HorizontalAlignment="Center" Margin="4,0"/>
                             </WrapPanel>
                         </WrapPanel>
                     </Border>
                 </Grid>
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Sessions" Style="{StaticResource InfoAskTextBlock}" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="Notes" Style="{StaticResource InfoAskTextBlock}" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Сессії" Style="{StaticResource InfoAskTextBlock}" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="Нотатки" Style="{StaticResource InfoAskTextBlock}" HorizontalAlignment="Center"/>
                 <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource MainBorderStyle}">
                     <ItemsControl Grid.Row="2" Grid.Column="0" ItemsSource="{Binding SessionViews}">
                         <ItemsControl.Template>

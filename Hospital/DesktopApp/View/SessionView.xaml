@@ -30,12 +30,12 @@
             </Grid.RowDefinitions>
         <Rectangle x:Name="Rectangle" Grid.ColumnSpan="2" Grid.RowSpan="4" Fill="{StaticResource ContentBrush}" RadiusX="5" RadiusY="5"/>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Session #"/>
+            <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="Сессія #"/>
             <TextBlock Style="{StaticResource InfoAskTextBlock}" Text="{Binding Id}"/>
         </StackPanel>
         <TextBox Grid.Row="1" Style="{StaticResource NoteTextBox}" Text="{Binding Diagnosis}" IsEnabled="{Binding State}" TextWrapping="Wrap"/>
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10,0" HorizontalAlignment="Right">
-            <TextBlock Style="{StaticResource InfoAskTextBlock}">Date:</TextBlock>
+            <TextBlock Style="{StaticResource InfoAskTextBlock}">Дата:</TextBlock>
             <TextBlock Style="{StaticResource InfoTextBlock}" FontWeight="Normal" Text="{Binding Date}"/>
         </StackPanel>
     </Grid>

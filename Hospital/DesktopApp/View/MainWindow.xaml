@@ -16,18 +16,18 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="Login" Style="{StaticResource TextBlockStyle}" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,15"/>
+            <TextBlock Grid.Row="0" Text="Авторизація" Style="{StaticResource TextBlockStyle}" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,15"/>
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Style="{StaticResource TextBlockStyle}" Text="Username"/>
+                <TextBlock Style="{StaticResource TextBlockStyle}" Text="Логін" Margin="20,0,25,0"/>
                 <TextBox Style="{StaticResource LoginBoxStyle}" Width="200" Height="30" Text="{Binding UserName}"/>
             </StackPanel>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Style="{StaticResource TextBlockStyle}" Text="Password" Margin="15,0"/>
+                <TextBlock Style="{StaticResource TextBlockStyle}" Text="Пароль" Margin="15,0"/>
                 <PasswordBox x:Name="Pwd" Style="{StaticResource PasswordBoxStyle}" Width="200" Height="30" VerticalContentAlignment="Center"/>
             </StackPanel>
-            <Button Grid.Row="3" Command="{Binding LogInCommand}" CommandParameter="{Binding ElementName=Pwd}" Style="{StaticResource SignInButtonStyle}"  Content="Sign In" Width="330" VerticalAlignment="Top" Margin="0,15"/>
+            <Button Grid.Row="3" Command="{Binding LogInCommand}" CommandParameter="{Binding ElementName=Pwd}" Style="{StaticResource SignInButtonStyle}"  Content="Увійти" Width="330" VerticalAlignment="Top" Margin="0,15"/>
             <TextBlock Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TextBlockStyle}" FontSize="16" FontWeight="Normal">
-                <Hyperlink Command="{Binding RegisterNewClickCommand}" Style="{StaticResource LinkStyle}">Register new user</Hyperlink>
+                <Hyperlink Command="{Binding RegisterNewClickCommand}" Style="{StaticResource LinkStyle}">Реєстрація</Hyperlink>
             </TextBlock>
         </Grid>
         <Grid Visibility="{Binding RegisterVisibility}" x:Name="RegisterGrid">
@@ -36,7 +36,7 @@
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Style="{StaticResource TextBlockStyle}" Text="Register" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="48"/>
+            <TextBlock Grid.Row="0" Style="{StaticResource TextBlockStyle}" Text="Реєстрація" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="48"/>
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -52,32 +52,32 @@
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Login"/>
+                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Логін"/>
                 <TextBox x:Name="TextBox" Grid.Row="0" Grid.Column="1" Style="{StaticResource RegisterDataBox}" Text="{Binding Login}"/>
                 <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="E-mail"/>
                 <TextBox Grid.Row="0" Grid.Column="3" Style="{StaticResource RegisterDataBox}" Text="{Binding Email}"/>
-                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Password"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Пароль"/>
                 <PasswordBox x:Name="RegPwd" Grid.Row="1" Grid.Column="1" Style="{StaticResource PasswordBoxStyle}" 
                              Width="{Binding ElementName=TextBox,Path=Width}" 
                              Height="{Binding ElementName=TextBox,Path=Height}" 
                              Margin="{Binding ElementName=TextBox,Path=Margin}"/>
-                <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="Confirm"/>
+                <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="Повтор"/>
                 <PasswordBox x:Name="ConfPwd" Grid.Row="1" Grid.Column="3" Style="{StaticResource PasswordBoxStyle}" 
                              Width="{Binding ElementName=TextBox,Path=Width}" 
                              Height="{Binding ElementName=TextBox,Path=Height}" 
                              Margin="{Binding ElementName=TextBox,Path=Margin}"/>
-                <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="First Name"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Ім'я"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource RegisterDataBox}" Text="{Binding FirstName}"/>
-                <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="Last Name"/>
+                <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="Прізвище"/>
                 <TextBox Grid.Row="2" Grid.Column="3" Style="{StaticResource RegisterDataBox}" Text="{Binding LastName}"/>
-                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Middle Name"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="По-Батькові"/>
                 <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource RegisterDataBox}" Text="{Binding MiddleName}"/>
                 <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource RegisterTextBlock}" Text="Age"/>
+                    <TextBlock Style="{StaticResource RegisterTextBlock}" Text="Вік"/>
                     <TextBox Style="{StaticResource RegisterDataBox}" HorizontalContentAlignment="Center" MaxLength="2" Width="40" Text="{Binding Age}"/>
                 </StackPanel>
                 <StackPanel Grid.Row="3" Grid.Column="3" Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource RegisterTextBlock}" Text="Sex"/>
+                    <TextBlock Style="{StaticResource RegisterTextBlock}" Text="Стать"/>
                     <ComboBox Width="80" Height="30" Style="{StaticResource {x:Type ComboBox}}" SelectedItem="{Binding Sex}">
                         <ComboBox.Items>
                             <basic:String>Чоловік</basic:String>
@@ -85,15 +85,15 @@
                         </ComboBox.Items>
                     </ComboBox>
                 </StackPanel>
-                <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Address"/>
+                <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Адреса"/>
                 <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Width="410" Style="{StaticResource RegisterDataBox}" Text="{Binding Address}"/>
-                <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Office"/>
+                <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource RegisterTextBlock}" Text="Посада"/>
                 <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource RegisterDataBox}" Text="{Binding Office}"/>
-                <TextBlock Grid.Row="5" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="Phone"/>
+                <TextBlock Grid.Row="5" Grid.Column="2" Style="{StaticResource RegisterTextBlock}" Text="Телефон"/>
                 <TextBox Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" Style="{StaticResource RegisterDataBox}" Text="{Binding Phone}"/>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
-                <Button Width="200" Command="{Binding RegisterCommand}" Style="{StaticResource SignInButtonStyle}" Content="Register" Margin="10">
+                <Button Width="200" Command="{Binding RegisterCommand}" Style="{StaticResource SignInButtonStyle}" Content="Реєстрація" Margin="10">
                 <Button.CommandParameter>
                     <MultiBinding Converter="{converters:PasswordConverter}">
                         <Binding ElementName="RegPwd"/>
@@ -101,7 +101,7 @@
                     </MultiBinding>
                 </Button.CommandParameter>
                 </Button>
-                <Button Width="200" Command="{Binding CancelCommand}" Style="{StaticResource SignInButtonStyle}" Content="Cancel" Margin="10"/>
+                <Button Width="200" Command="{Binding CancelCommand}" Style="{StaticResource SignInButtonStyle}" Content="Відміна" Margin="10"/>
             </StackPanel>
         </Grid>
     </Grid>
