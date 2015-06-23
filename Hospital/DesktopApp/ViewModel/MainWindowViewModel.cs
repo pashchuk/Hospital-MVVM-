@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using DesktopApp.Commands;
 using DesktopApp.Model;
 using DesktopApp.View;
-using DevOne.Security.Cryptography.BCrypt;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.Forms.MessageBox;
 

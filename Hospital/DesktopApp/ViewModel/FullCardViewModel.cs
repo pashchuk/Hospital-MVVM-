@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -374,6 +375,7 @@ namespace DesktopApp.ViewModel
 		{
 			if (_card == null) return;
 			var colection = new ObservableCollection<SessionView>();
+			HospitalContext.GetContext().Sessions.Load();
 			var sessions = (from item in _card.Sesions
 						 orderby item.Date descending
 						 select item).Take(10);
